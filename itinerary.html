@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Itinerary | BKK → NRT 10 Days</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #2d3748;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      padding: 60px 20px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .route-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .route-badge span { font-size: 1.4rem; }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .hero h1 em { color: #e94560; font-style: normal; }
+    .hero p { font-size: 1.1rem; opacity: 0.75; }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      background: rgba(255,255,255,0.12);
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Summary strip */
+    .summary {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+    .summary-item {
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+      padding: 20px 16px;
+      border-right: 1px solid #e2e8f0;
+    }
+    .summary-item:last-child { border-right: none; }
+    .summary-item .num { font-size: 2rem; font-weight: 800; color: #e94560; }
+    .summary-item .label { font-size: 0.78rem; color: #718096; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Timeline */
+    .container { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
+    .section-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #1a202c;
+    }
+    .section-title span { color: #e94560; }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 56px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #e94560, #0f3460);
+    }
+
+    .day-card {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .day-number {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e94560, #c41c3c);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.65rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(233,69,96,0.4);
+      position: relative;
+      z-index: 1;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+    .day-number .n { font-size: 1.2rem; line-height: 1; }
+
+    .card {
+      flex: 1;
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border-left: 4px solid #e94560;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .card.transit { border-left-color: #667eea; }
+    .card.day-trip { border-left-color: #48bb78; }
+    .card.shopping { border-left-color: #ed8936; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .card-title { font-size: 1.15rem; font-weight: 700; color: #1a202c; }
+    .card-subtitle { font-size: 0.85rem; color: #718096; margin-top: 2px; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-arrival { background: #fef3cd; color: #856404; }
+    .tag-explore { background: #d1ecf1; color: #0c5460; }
+    .tag-daytrip { background: #d4edda; color: #155724; }
+    .tag-culture { background: #f8d7da; color: #721c24; }
+    .tag-shopping { background: #fff3cd; color: #856404; }
+    .tag-departure { background: #e2e3e5; color: #383d41; }
+
+    .activities {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .activity {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #4a5568;
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .activity .icon { font-size: 1rem; flex-shrink: 0; }
+
+    .tip {
+      margin-top: 14px;
+      background: #fffaf0;
+      border-left: 3px solid #ed8936;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #744210;
+    }
+    .tip strong { display: block; margin-bottom: 2px; }
+
+    /* Map section */
+    .map-section {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .map-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: #1a202c; }
+    .city-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .city-box {
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white;
+      border-radius: 12px;
+      padding: 14px 20px;
+      min-width: 100px;
+    }
+    .city-box .code { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; }
+    .city-box .name { font-size: 0.72rem; opacity: 0.7; margin-top: 2px; }
+    .city-box .days { font-size: 0.72rem; background: #e94560; border-radius: 10px; padding: 2px 8px; margin-top: 4px; display: inline-block; }
+    .flow-arrow { font-size: 1.5rem; color: #e94560; }
+
+    /* Info cards */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .info-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .info-card h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 12px; }
+    .info-card ul { list-style: none; }
+    .info-card li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.875rem;
+      color: #4a5568;
+      padding: 5px 0;
+      border-bottom: 1px solid #f0f4f8;
+    }
+    .info-card li:last-child { border-bottom: none; }
+
+    /* Footer */
+    footer {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.82rem;
+    }
+    footer strong { color: white; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .timeline::before { left: 24px; }
+      .day-number { width: 40px; height: 40px; }
+      .day-number .n { font-size: 1rem; }
+    }
+
+    /* Floating action buttons */
+    .fab-group {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .fab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 22px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      white-space: nowrap;
+    }
+    .fab-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .fab-btn:hover { transform: translateY(-3px); }
+    .fab-btn:active { transform: translateY(-1px); }
+
+    .fab-btn.download {
+      background: linear-gradient(135deg, #e94560, #c41c3c);
+      color: white;
+      box-shadow: 0 6px 20px rgba(233,69,96,0.45);
+    }
+    .fab-btn.download:hover { box-shadow: 0 10px 28px rgba(233,69,96,0.55); }
+    .fab-btn.download.loading { opacity: 0.75; pointer-events: none; }
+
+    .fab-btn.print {
+      background: white;
+      color: #2d3748;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+      border: 1.5px solid #e2e8f0;
+    }
+    .fab-btn.print:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.18); }
+
+    .fab-btn .spinner {
+      width: 17px; height: 17px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Google Maps links */
+    .map-link {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(0,0,0,0.25);
+      transition: color .15s, border-color .15s;
+    }
+    .map-link:hover { color: #e94560; border-bottom-color: #e94560; }
+    .map-link .mp { font-size: 0.68rem; opacity: 0.4; margin-left: 2px; transition: opacity .15s; }
+    .map-link:hover .mp { opacity: 1; }
+    @media print { .mp { display: none !important; } }
+
+    @media print {
+      .fab-group { display: none !important; }
+      body { background: white; }
+      .customer-bar { display: none !important; }
+      .card { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+      .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* Customer Info Bar */
+    .customer-bar {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px;
+    }
+    .customer-bar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .customer-bar h3 {
+      width: 100%;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #718096;
+      margin-bottom: 4px;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .field-group.narrow { flex: 0 0 140px; min-width: 120px; }
+
+    /* Traveler counter */
+    .counter-wrap {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      background: #f7fafc;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      height: 40px;
+    }
+    .counter-wrap:focus-within {
+      border-color: #e94560;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+    }
+    .counter-btn {
+      width: 36px;
+      height: 100%;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #718096;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .counter-btn:hover { background: #e94560; color: white; }
+    #travelerCount {
+      flex: 1;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2d3748;
+      font-family: 'Segoe UI', sans-serif;
+      outline: none;
+      width: 0;
+    }
+    .field-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4a5568;
+    }
+    .field-group input {
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: 'Segoe UI', sans-serif;
+      color: #2d3748;
+      background: #f7fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .field-group input:focus {
+      border-color: #e94560;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+    }
+    .apply-btn {
+      padding: 10px 22px;
+      background: linear-gradient(135deg, #e94560, #c41c3c);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+      height: 40px;
+    }
+    .apply-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(233,69,96,0.4); }
+    .apply-btn:active { transform: translateY(0); }
+
+    /* Hero customer tag */
+    .hero-customer {
+      display: none;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-customer.visible { display: flex; }
+    .hero-customer strong { color: #ffd700; }
+
+    @media print {
+      .customer-bar { display: none !important; }
+      .hero-customer { background: rgba(0,0,0,0.25) !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="route-badge">
+    <span>✈️</span> BKK &nbsp;→&nbsp; NRT <span>🗾</span>
+  </div>
+  <h1>Japan <em>10-Day</em> Itinerary</h1>
+  <p>Bangkok Suvarnabhumi → Tokyo Narita · Classic Japan Experience</p>
+  <div id="heroCustomer" class="hero-customer">
+    👤 <strong id="displayName"></strong>
+    &nbsp;·&nbsp; ✈️ <strong id="displayDate"></strong>
+    &nbsp;·&nbsp; 🧳 <strong id="displayTravelers"></strong>
+  </div>
+  <div class="hero-meta">
+    <div class="meta-pill">📅 10 วัน 9 คืน</div>
+    <div class="meta-pill">🏙️ Tokyo · Nikko · Kyoto · Nara</div>
+    <div class="meta-pill">🚄 รวม Shinkansen</div>
+    <div class="meta-pill">🌸 เที่ยวได้ทุกฤดู</div>
+  </div>
+</div>
+
+<!-- Customer Info Bar -->
+<div class="customer-bar" id="customerBar">
+  <div class="customer-bar-inner">
+    <h3>✏️ ข้อมูลลูกค้า</h3>
+    <div class="field-group">
+      <label for="customerName">ชื่อลูกค้า / Traveller Name</label>
+      <input type="text" id="customerName" placeholder="เช่น คุณสมชาย ใจดี" maxlength="80" />
+    </div>
+    <div class="field-group">
+      <label for="travelDate">วันเดินทาง / Departure Date</label>
+      <input type="date" id="travelDate" />
+    </div>
+    <div class="field-group narrow">
+      <label>จำนวนผู้เดินทาง</label>
+      <div class="counter-wrap">
+        <button class="counter-btn" type="button" onclick="changeCount(-1)">−</button>
+        <input type="number" id="travelerCount" value="1" min="1" max="99" readonly />
+        <button class="counter-btn" type="button" onclick="changeCount(1)">+</button>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="applyCustomer()">✔ ใช้ข้อมูล</button>
+  </div>
+</div>
+
+<!-- Summary strip -->
+<div class="summary">
+  <div class="summary-item"><div class="num">10</div><div class="label">วัน</div></div>
+  <div class="summary-item"><div class="num">4</div><div class="label">เมือง</div></div>
+  <div class="summary-item"><div class="num">30+</div><div class="label">สถานที่</div></div>
+  <div class="summary-item"><div class="num">2</div><div class="label">Day Trips</div></div>
+  <div class="summary-item"><div class="num">1</div><div class="label">Shinkansen</div></div>
+</div>
+
+<div class="container">
+
+  <!-- City Flow -->
+  <div class="map-section">
+    <h3>🗺️ เส้นทางการเดินทาง</h3>
+    <div class="city-flow">
+      <div class="city-box">
+        <div class="code">BKK</div>
+        <div class="name">Bangkok</div>
+        <div class="days">เริ่มต้น</div>
+      </div>
+      <div class="flow-arrow">✈️</div>
+      <div class="city-box">
+        <div class="code">TYO</div>
+        <div class="name">Tokyo</div>
+        <div class="days">วัน 1–5</div>
+      </div>
+      <div class="flow-arrow">🚄</div>
+      <div class="city-box">
+        <div class="code">KYO</div>
+        <div class="name">Kyoto</div>
+        <div class="days">วัน 6–8</div>
+      </div>
+      <div class="flow-arrow">🚄</div>
+      <div class="city-box">
+        <div class="code">TYO</div>
+        <div class="name">Tokyo</div>
+        <div class="days">วัน 9–10</div>
+      </div>
+      <div class="flow-arrow">✈️</div>
+      <div class="city-box">
+        <div class="code">BKK</div>
+        <div class="name">Bangkok</div>
+        <div class="days">กลับบ้าน</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <h2 class="section-title">แผนการเดินทาง <span>รายวัน</span></h2>
+
+  <div class="timeline">
+
+    <!-- Day 1 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">1</span>DAY</div>
+      <div class="card transit">
+        <div class="card-header">
+          <div>
+            <div class="card-title">✈️ เดินทางถึงโตเกียว</div>
+            <div class="card-subtitle">BKK → NRT · เช็คอินโรงแรม · สำรวจ Asakusa</div>
+          </div>
+          <span class="tag tag-arrival">Arrival</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🛬</span> ลงจากเครื่อง — ผ่าน Immigration ที่ Narita</div>
+          <div class="activity"><span class="icon">🚆</span> Narita Express (N'EX) เข้า Tokyo Station ~1 ชม.</div>
+          <div class="activity"><span class="icon">🏨</span> เช็คอินโรงแรม — แนะนำแถว Asakusa / Shinjuku</div>
+          <div class="activity"><span class="icon">⛩️</span> วัด Senso-ji & Nakamise Shopping Street</div>
+          <div class="activity"><span class="icon">🌉</span> ชม Tokyo Skytree ยามค่ำ (ไฟสวย)</div>
+          <div class="activity"><span class="icon">🍜</span> ลอง Ramen แท้ๆ มื้อแรกในญี่ปุ่น</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ซื้อ IC Card (Suica / Pasmo) ที่สนามบินเพื่อใช้รถไฟสะดวก ชาร์จ ¥3,000 ไว้ก่อน</div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">2</span>DAY</div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🏙️ Shinjuku & Shibuya</div>
+            <div class="card-subtitle">หัวใจของโตเกียวยุคใหม่</div>
+          </div>
+          <span class="tag tag-explore">Explore</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🌅</span> Tokyo Metropolitan Government Building — ชมวิวฟรีชั้น 45</div>
+          <div class="activity"><span class="icon">🌿</span> Shinjuku Gyoen National Garden</div>
+          <div class="activity"><span class="icon">🛍️</span> Takashimaya Times Square · Isetan</div>
+          <div class="activity"><span class="icon">🚶</span> Omoide Yokocho (Memory Lane) — yakitori</div>
+          <div class="activity"><span class="icon">🚦</span> Shibuya Crossing — สี่แยกที่พลุกพล่านสุดในโลก</div>
+          <div class="activity"><span class="icon">🐕</span> รูปปั้น Hachiko</div>
+          <div class="activity"><span class="icon">🍱</span> ดินเนอร์ที่ Shibuya — Tonkatsu หรือ Sushi</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ขึ้น Shibuya Sky (¥2,000) ช่วง sunset เพื่อถ่ายรูป Shibuya Crossing จากมุมสูง</div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">3</span>DAY</div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">⛩️ Harajuku · Akihabara · Ueno</div>
+            <div class="card-subtitle">วัฒนธรรม Pop + ศิลปะ + ธรรมชาติ</div>
+          </div>
+          <span class="tag tag-culture">Culture</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🌲</span> Meiji Jingu Shrine เช้าตรู่ (บรรยากาศสงบ)</div>
+          <div class="activity"><span class="icon">🎀</span> Takeshita Street — Harajuku Fashion</div>
+          <div class="activity"><span class="icon">🛍️</span> Omotesando — ถนนแบรนด์เนม</div>
+          <div class="activity"><span class="icon">🤖</span> Akihabara — อนิเมะ · Manga · Electronics</div>
+          <div class="activity"><span class="icon">🎮</span> Arcade & Figure Shops</div>
+          <div class="activity"><span class="icon">🖼️</span> Ueno Park & Tokyo National Museum</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">4</span>DAY</div>
+      <div class="card day-trip">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🏔️ Day Trip — Nikko</div>
+            <div class="card-subtitle">มรดกโลก UNESCO · ห่างโตเกียว ~2 ชม.</div>
+          </div>
+          <span class="tag tag-daytrip">Day Trip</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🚆</span> Tobu Nikko Line จาก Asakusa (2 ชม.)</div>
+          <div class="activity"><span class="icon">⛩️</span> Tosho-gu Shrine — ประดับทองอลังการ</div>
+          <div class="activity"><span class="icon">🙈</span> รูปปั้น "ลิง 3 ตัว" See/Hear/Speak No Evil</div>
+          <div class="activity"><span class="icon">💧</span> Kegon Falls — น้ำตก 97 เมตร</div>
+          <div class="activity"><span class="icon">🏞️</span> Lake Chuzenji</div>
+          <div class="activity"><span class="icon">🌲</span> Cedar Avenue of Nikko</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ซื้อ Nikko Pass (¥2,800) ครอบคลุม Tobu train + bus ใน Nikko คุ้มมาก</div>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">5</span>DAY</div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🌊 Odaiba & teamLab</div>
+            <div class="card-subtitle">เทคโนโลยี · ศิลปะ · อ่าวโตเกียว</div>
+          </div>
+          <span class="tag tag-explore">Explore</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🐟</span> Toyosu Market เช้ามืด (ชมประมูลปลาทูน่า)</div>
+          <div class="activity"><span class="icon">🌉</span> Rainbow Bridge ทางเรือ Water Bus</div>
+          <div class="activity"><span class="icon">🗽</span> Mini Statue of Liberty ที่ Odaiba</div>
+          <div class="activity"><span class="icon">🎨</span> teamLab Borderless / Planets (ต้องจองล่วงหน้า!)</div>
+          <div class="activity"><span class="icon">🛍️</span> DiverCity Tokyo Plaza · Aqua City</div>
+          <div class="activity"><span class="icon">🌃</span> วิว Tokyo Bay ยามค่ำ + เตรียมตัวเดินทางพรุ่งนี้</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> จองตั๋ว teamLab ล่วงหน้าทางออนไลน์ — มักเต็มโดยเฉพาะวันหยุด</div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">6</span>DAY</div>
+      <div class="card transit">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🚄 Tokyo → Kyoto (Shinkansen)</div>
+            <div class="card-subtitle">โตเกียว → เกียวโต · เมืองหลวงเก่าแก่ 1,200 ปี</div>
+          </div>
+          <span class="tag tag-arrival">Transit</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🚄</span> Tokaido Shinkansen (Nozomi) ~2:15 ชม.</div>
+          <div class="activity"><span class="icon">🏨</span> เช็คอินที่ Kyoto</div>
+          <div class="activity"><span class="icon">⛩️</span> Fushimi Inari Taisha — torii gates สีแดงพัน</div>
+          <div class="activity"><span class="icon">🦊</span> เดินขึ้น Inari Mountain ยามเย็น (เงียบกว่าตอนกลางวัน)</div>
+          <div class="activity"><span class="icon">🍶</span> Nishiki Market — "ครัวของเกียวโต"</div>
+          <div class="activity"><span class="icon">🌙</span> Gion District ยามค่ำ — อาจเห็น Maiko/Geisha</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ถ้ามี JR Pass ใช้ได้เลย ถ้าไม่มีซื้อตั๋วที่ Ticket Office ค่าตั๋ว Tokyo–Kyoto ประมาณ ¥13,900</div>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">7</span>DAY</div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🌸 Arashiyama & Kinkaku-ji</div>
+            <div class="card-subtitle">ป่าไผ่ · วัดทอง · วิหารหิน</div>
+          </div>
+          <span class="tag tag-culture">Culture</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🎋</span> Arashiyama Bamboo Grove เช้าตรู่ (ก่อนฝูงชน)</div>
+          <div class="activity"><span class="icon">🐒</span> Iwatayama Monkey Park</div>
+          <div class="activity"><span class="icon">🚣</span> ล่องเรือแม่น้ำ Hozu</div>
+          <div class="activity"><span class="icon">🥣</span> Tenryu-ji Zen Garden</div>
+          <div class="activity"><span class="icon">✨</span> Kinkaku-ji (วัดทอง) — มรดกโลก UNESCO</div>
+          <div class="activity"><span class="icon">🪨</span> Ryoan-ji — สวนหินเซน</div>
+          <div class="activity"><span class="icon">⛩️</span> Nijo Castle</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 8 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">8</span>DAY</div>
+      <div class="card day-trip">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🦌 Day Trip — Nara</div>
+            <div class="card-subtitle">กวางอิสระ · พุทธสถานเก่าแก่ · 45 นาทีจากเกียวโต</div>
+          </div>
+          <span class="tag tag-daytrip">Day Trip</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🚆</span> Kintetsu Line จาก Kyoto (45 นาที)</div>
+          <div class="activity"><span class="icon">🦌</span> Nara Deer Park — กวางเดินอิสระทั่วเมือง</div>
+          <div class="activity"><span class="icon">🏛️</span> Todai-ji — วิหารไม้ใหญ่สุดในโลก + พระพุทธรูปสัมฤทธิ์ยักษ์</div>
+          <div class="activity"><span class="icon">⛩️</span> Kasuga Taisha Shrine — โคมไฟหิน 3,000 ดวง</div>
+          <div class="activity"><span class="icon">🛍️</span> ช้อปปิ้งถนน Higashimuki</div>
+          <div class="activity"><span class="icon">🚆</span> กลับ Kyoto แล้วเดินทางต่อ Tokyo ด้วย Shinkansen</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ซื้อ "Shika Senbei" (แผ่นบิสกิต ¥200) เพื่อให้อาหารกวาง — กวางจะโค้งคำนับขอบิสกิตได้จริง!</div>
+      </div>
+    </div>
+
+    <!-- Day 9 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">9</span>DAY</div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🗼 Ginza · Tokyo Tower · Roppongi</div>
+            <div class="card-subtitle">กลับ Tokyo · ไฮไลท์ที่เหลือ</div>
+          </div>
+          <span class="tag tag-explore">Explore</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🏛️</span> Tsukiji Outer Market — อาหารเช้าสดๆ</div>
+          <div class="activity"><span class="icon">💎</span> Ginza — ถนน luxury shopping แห่งโตเกียว</div>
+          <div class="activity"><span class="icon">🗼</span> Tokyo Tower — วิวพระอาทิตย์ตกที่สวยงาม</div>
+          <div class="activity"><span class="icon">🏯</span> Zojoji Temple เชิงหอคอย</div>
+          <div class="activity"><span class="icon">🎨</span> Roppongi Hills — Mori Art Museum</div>
+          <div class="activity"><span class="icon">🍻</span> Roppongi Night Life</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> บัตร Tokyo Tower + Mori Art Museum Sky Deck ซื้อรวมถูกกว่า</div>
+      </div>
+    </div>
+
+    <!-- Day 10 -->
+    <div class="day-card">
+      <div class="day-number"><span class="n">10</span>DAY</div>
+      <div class="card shopping">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🛍️ Shopping Day & กลับบ้าน</div>
+            <div class="card-subtitle">ช้อปปิ้งสุดท้าย · เดินทางกลับ BKK</div>
+          </div>
+          <span class="tag tag-departure">Departure</span>
+        </div>
+        <div class="activities">
+          <div class="activity"><span class="icon">🛍️</span> Don Quijote / Daiso — ของฝาก + ขนม</div>
+          <div class="activity"><span class="icon">💊</span> Matsumoto Kiyoshi — ยา · เครื่องสำอาง</div>
+          <div class="activity"><span class="icon">📦</span> แพ็คกระเป๋า + ส่ง Luggage ไป NRT ล่วงหน้า (TA-Q-BIN)</div>
+          <div class="activity"><span class="icon">🍣</span> อาหารมื้อสุดท้ายในญี่ปุ่น — Omakase Sushi</div>
+          <div class="activity"><span class="icon">🚆</span> N'EX หรือ Limousine Bus ไป Narita</div>
+          <div class="activity"><span class="icon">✈️</span> เดินทางกลับ BKK — Safe Flight!</div>
+        </div>
+        <div class="tip"><strong>💡 Tip:</strong> ขอ Tax Refund ก่อนออกสนามบิน! ซื้อของเกิน ¥5,000 ในร้านเดียวคืนภาษี 10% ได้ทันที</div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- Practical Info -->
+  <h2 class="section-title" style="margin-top:50px">ข้อมูล <span>สำคัญ</span></h2>
+  <div class="info-grid">
+
+    <div class="info-card">
+      <h4>🛫 เที่ยวบิน</h4>
+      <ul>
+        <li><span>✈️</span> BKK (BKK/DMK) → NRT/HND</li>
+        <li><span>⏱️</span> ใช้เวลาบิน ~6-7 ชั่วโมง</li>
+        <li><span>🏷️</span> Thai Airways, ANA, JAL, Thai Lion Air</li>
+        <li><span>🕐</span> GMT+9 (ญี่ปุ่น) = GMT+7 + 2 ชม.</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h4>💴 งบประมาณ (ต่อคน)</h4>
+      <ul>
+        <li><span>✈️</span> ตั๋วเครื่องบิน ฿15,000–30,000</li>
+        <li><span>🏨</span> โรงแรม ¥8,000–15,000/คืน</li>
+        <li><span>🍜</span> อาหาร ¥3,000–5,000/วัน</li>
+        <li><span>🚆</span> ค่าเดินทาง ¥2,000–4,000/วัน</li>
+        <li><span>🛍️</span> ช้อปปิ้ง ขึ้นอยู่กับแต่ละคน</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h4>📱 สิ่งที่ต้องเตรียม</h4>
+      <ul>
+        <li><span>📶</span> Pocket WiFi หรือ SIM ท่องเที่ยว</li>
+        <li><span>💳</span> IC Card (Suica/Pasmo) สำหรับรถไฟ</li>
+        <li><span>🎫</span> JR Pass (ถ้าเดินทางไกลบ่อย)</li>
+        <li><span>📋</span> Visit Japan Web (ยื่นแบบฟอร์ม online)</li>
+        <li><span>💴</span> เงินสด — ร้านเล็กๆ หลายที่ไม่รับบัตร</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h4>🌡️ สภาพอากาศตามฤดู</h4>
+      <ul>
+        <li><span>🌸</span> มี.ค.–พ.ค. · ซากุระ · 10–20°C</li>
+        <li><span>☀️</span> มิ.ย.–ส.ค. · ร้อนชื้น · 25–35°C</li>
+        <li><span>🍂</span> ก.ย.–พ.ย. · ใบไม้แดง · 10–25°C</li>
+        <li><span>❄️</span> ธ.ค.–ก.พ. · หนาว · 0–10°C</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h4>🚆 การเดินทางในญี่ปุ่น</h4>
+      <ul>
+        <li><span>🚇</span> Tokyo Metro — ครอบคลุมทั่วโตเกียว</li>
+        <li><span>🚄</span> Shinkansen — Tokyo ↔ Kyoto ¥13,900</li>
+        <li><span>🚌</span> City Bus — ที่เกียวโต (ใช้ IC Card)</li>
+        <li><span>🚕</span> Taxi — แพงแต่สะดวกยามดึก</li>
+        <li><span>🚲</span> จักรยานเช่า — ที่เกียวโต + Nara</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h4>😋 อาหารต้องลอง</h4>
+      <ul>
+        <li><span>🍜</span> Ramen · Udon · Soba</li>
+        <li><span>🍣</span> Sushi · Sashimi · Omakase</li>
+        <li><span>🥩</span> Wagyu · Tonkatsu · Yakitori</li>
+        <li><span>🍡</span> Matcha desserts · Mochi · Taiyaki</li>
+        <li><span>🍱</span> Bento จาก Convenience Store</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Japan 10-Day Itinerary</strong> &nbsp;·&nbsp; BKK → NRT &nbsp;·&nbsp;
+  สร้างด้วย Claude Code &nbsp;·&nbsp; ข้อมูลอาจเปลี่ยนแปลงตามฤดูกาลและสภาพการณ์
+</footer>
+
+<!-- Floating Action Buttons -->
+<div class="fab-group">
+  <button class="fab-btn print" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Print PDF
+  </button>
+  <button class="fab-btn download" id="pdfBtn" onclick="downloadPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15V3m0 12-4-4m4 4 4-4"/><rect x="2" y="17" width="20" height="4" rx="2"/>
+    </svg>
+    Download PDF
+  </button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  function changeCount(delta) {
+    const el = document.getElementById('travelerCount');
+    const next = Math.min(99, Math.max(1, parseInt(el.value || 1) + delta));
+    el.value = next;
+  }
+
+  function applyCustomer() {
+    const name     = document.getElementById('customerName').value.trim();
+    const dateRaw  = document.getElementById('travelDate').value;
+    const count    = parseInt(document.getElementById('travelerCount').value) || 1;
+
+    const heroEl           = document.getElementById('heroCustomer');
+    const displayName      = document.getElementById('displayName');
+    const displayDate      = document.getElementById('displayDate');
+    const displayTravelers = document.getElementById('displayTravelers');
+
+    if (!name && !dateRaw) {
+      heroEl.classList.remove('visible');
+      return;
+    }
+
+    displayName.textContent = name || '—';
+
+    if (dateRaw) {
+      const d = new Date(dateRaw + 'T00:00:00');
+      displayDate.textContent = d.toLocaleDateString('th-TH', {
+        year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+      });
+    } else {
+      displayDate.textContent = '—';
+    }
+
+    displayTravelers.textContent = count + ' ท่าน';
+    heroEl.classList.add('visible');
+  }
+
+  // Apply on Enter key + inject Google Maps links
+  document.addEventListener('DOMContentLoaded', () => {
+    ['customerName', 'travelDate'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') applyCustomer();
+      });
+    });
+    addMapLinks();
+  });
+
+  /* ── Google Maps link injector ── */
+  const PLACES = [
+    // Sorted by name length desc so longer/specific names match before shorter ones
+    ['Tokyo Metropolitan Government', 'Tokyo+Metropolitan+Government+Building+Shinjuku'],
+    ['Takashimaya Times Square',      'Takashimaya+Times+Square+Shinjuku+Tokyo'],
+    ['Cedar Avenue of Nikko',         'Cedar+Avenue+Nikko+Japan'],
+    ['Arashiyama Bamboo Grove',       'Arashiyama+Bamboo+Grove+Kyoto'],
+    ['Iwatayama Monkey Park',         'Iwatayama+Monkey+Park+Kyoto'],
+    ['DiverCity Tokyo Plaza',         'DiverCity+Tokyo+Plaza+Odaiba'],
+    ['Tsukiji Outer Market',          'Tsukiji+Outer+Market+Tokyo'],
+    ['Kasuga Taisha Shrine',          'Kasuga+Taisha+Shrine+Nara+Japan'],
+    ['Tokyo National Museum',         'Tokyo+National+Museum+Ueno'],
+    ['Matsumoto Kiyoshi',             'Matsumoto+Kiyoshi+Tokyo'],
+    ['Mori Art Museum',               'Mori+Art+Museum+Roppongi+Tokyo'],
+    ['Fushimi Inari Taisha',          'Fushimi+Inari+Taisha+Kyoto'],
+    ['Nara Deer Park',                'Nara+Deer+Park+Japan'],
+    ['Shibuya Crossing',              'Shibuya+Crossing+Tokyo'],
+    ['Omoide Yokocho',                'Omoide+Yokocho+Memory+Lane+Shinjuku'],
+    ['Meiji Jingu Shrine',            'Meiji+Jingu+Shrine+Tokyo'],
+    ['Takeshita Street',              'Takeshita+Street+Harajuku+Tokyo'],
+    ['Roppongi Hills',                'Roppongi+Hills+Tokyo'],
+    ['Rainbow Bridge',                'Rainbow+Bridge+Tokyo+Odaiba'],
+    ['Shinjuku Gyoen',                'Shinjuku+Gyoen+National+Garden+Tokyo'],
+    ['Toyosu Market',                 'Toyosu+Market+Tokyo'],
+    ['Nishiki Market',                'Nishiki+Market+Kyoto'],
+    ['Tokyo Skytree',                 'Tokyo+Skytree'],
+    ['Tokyo Tower',                   'Tokyo+Tower+Japan'],
+    ['Kinkaku-ji',                    'Kinkaku-ji+Golden+Pavilion+Kyoto'],
+    ['Tenryu-ji',                     'Tenryu-ji+Temple+Arashiyama+Kyoto'],
+    ['Tosho-gu Shrine',               'Toshogu+Shrine+Nikko+Japan'],
+    ['Lake Chuzenji',                 'Lake+Chuzenji+Nikko+Japan'],
+    ['Don Quijote',                   'Don+Quijote+Shinjuku+Tokyo'],
+    ['Kegon Falls',                   'Kegon+Falls+Nikko+Japan'],
+    ['Nijo Castle',                   'Nijo+Castle+Kyoto'],
+    ['Omotesando',                    'Omotesando+Hills+Tokyo'],
+    ['Ueno Park',                     'Ueno+Park+Tokyo'],
+    ['Senso-ji',                      'Senso-ji+Temple+Asakusa+Tokyo'],
+    ['Nakamise',                      'Nakamise+Shopping+Street+Asakusa+Tokyo'],
+    ['Akihabara',                     'Akihabara+Electric+Town+Tokyo'],
+    ['Todai-ji',                      'Todai-ji+Temple+Nara+Japan'],
+    ['Ryoan-ji',                      'Ryoan-ji+Temple+Kyoto'],
+    ['Hachiko',                       'Hachiko+Statue+Shibuya+Tokyo'],
+    ['Higashimuki',                   'Higashimuki+Shopping+Street+Nara'],
+    ['teamLab',                       'teamLab+Borderless+Tokyo+Odaiba'],
+    ['Isetan',                        'Isetan+Department+Store+Shinjuku+Tokyo'],
+    ['Zojoji',                        'Zojoji+Temple+Tokyo'],
+    ['Hozu',                          'Hozu+River+Cruise+Arashiyama+Kyoto'],
+    ['Ginza',                         'Ginza+Shopping+District+Tokyo'],
+    ['Gion',                          'Gion+District+Kyoto'],
+  ].map(([name, q]) => [name, `https://www.google.com/maps/search/?api=1&query=${q}`]);
+
+  function addMapLinks() {
+    document.querySelectorAll('.activity').forEach(div => {
+      let html = div.innerHTML;
+      PLACES.forEach(([name, url]) => {
+        if (!html.includes(name)) return;
+        const link = `<a href="${url}" target="_blank" rel="noopener" class="map-link">${name}<span class="mp">📍</span></a>`;
+        html = html.replace(name, link);
+      });
+      div.innerHTML = html;
+    });
+  }
+
+  function getPdfFilename() {
+    const name = document.getElementById('customerName').value.trim();
+    const date = document.getElementById('travelDate').value;
+    const parts = ['Japan-Itinerary-BKK-NRT'];
+    if (name) parts.push(name.replace(/\s+/g, '-'));
+    if (date) parts.push(date);
+    return parts.join('_') + '.pdf';
+  }
+
+  function downloadPDF() {
+    const btn = document.getElementById('pdfBtn');
+    btn.classList.add('loading');
+    btn.innerHTML = '<div class="spinner"></div> กำลังสร้าง...';
+
+    const opt = {
+      margin: [8, 8, 8, 8],
+      filename: getPdfFilename(),
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(document.body)
+      .save()
+      .then(() => {
+        btn.classList.remove('loading');
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3m0 12-4-4m4 4 4-4"/><rect x="2" y="17" width="20" height="4" rx="2"/>
+          </svg>
+          Download PDF`;
+      });
+  }
+</script>
+
+</body>
+</html>

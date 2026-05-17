@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Packing Checklist | เตรียมของเดินทางญี่ปุ่น 10 วัน</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2d3748; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white; padding: 48px 20px 60px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; padding: 7px 20px; font-size: 0.85rem;
+      letter-spacing: 1.2px; margin-bottom: 16px; text-transform: uppercase;
+    }
+    .hero h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+    .hero h1 em { color: #e94560; font-style: normal; }
+    .hero p { font-size: 0.95rem; opacity: 0.65; }
+
+    /* ── Sticky Progress Bar ── */
+    .prog-bar-wrap {
+      position: sticky; top: 0; z-index: 100;
+      background: white; border-bottom: 1px solid #e2e8f0;
+      padding: 14px 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    }
+    .prog-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .prog-label { font-size: 0.85rem; font-weight: 700; color: #2d3748; white-space: nowrap; }
+    .prog-track {
+      flex: 1; min-width: 120px; height: 8px;
+      background: #edf2f7; border-radius: 99px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, #48bb78, #38a169);
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+      min-width: 0;
+    }
+    .prog-pct { font-size: 0.82rem; font-weight: 700; color: #48bb78; min-width: 36px; }
+    .ctrl-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; font-family: 'Segoe UI', sans-serif;
+      transition: all .15s; white-space: nowrap; border: 1.5px solid;
+    }
+    .ctrl-btn.filter { background: white; color: #4a5568; border-color: #e2e8f0; }
+    .ctrl-btn.filter:hover, .ctrl-btn.filter.active { background: #ebf8ff; color: #3182ce; border-color: #90cdf4; }
+    .ctrl-btn.reset { background: white; color: #e94560; border-color: #fed7d7; }
+    .ctrl-btn.reset:hover { background: #fff5f5; border-color: #fc8181; }
+
+    /* ── Grid ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+    .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .cat-grid { grid-template-columns: 1fr; } }
+
+    /* ── Category Card ── */
+    .cat-card {
+      background: white; border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      overflow: hidden; transition: box-shadow .2s;
+    }
+    .cat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+
+    .cat-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 18px;
+      background: var(--cat-color, #e94560);
+      color: white;
+      transition: background .3s;
+    }
+    .cat-header.all-done { background: #38a169 !important; }
+    .cat-icon { font-size: 1.3rem; }
+    .cat-name { font-size: 0.97rem; font-weight: 700; flex: 1; }
+    .cat-badge {
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 0.75rem; font-weight: 700;
+      white-space: nowrap;
+    }
+    .cat-badge.complete { background: rgba(255,255,255,0.35); }
+
+    .cat-items { padding: 4px 0; }
+
+    /* ── Item Row ── */
+    .item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 18px; cursor: pointer;
+      border-bottom: 1px solid #f7fafc;
+      transition: background .12s, opacity .2s;
+      user-select: none;
+    }
+    .item:last-child { border-bottom: none; }
+    .item:hover { background: #f7fafc; }
+    .item.checked { opacity: 0.42; }
+    .item.checked .item-text { text-decoration: line-through; }
+    .item.hidden { display: none; }
+
+    .chk {
+      flex-shrink: 0; margin-top: 2px;
+      width: 20px; height: 20px;
+      border: 2px solid #cbd5e0; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, border-color .15s;
+      background: white;
+    }
+    .item.checked .chk { background: #48bb78; border-color: #48bb78; }
+    .chk svg { display: none; }
+    .item.checked .chk svg { display: block; }
+
+    .item-content { flex: 1; min-width: 0; }
+    .item-text { font-size: 0.875rem; color: #2d3748; line-height: 1.45; }
+    .item-note {
+      font-size: 0.72rem; color: #a0aec0;
+      margin-top: 2px; line-height: 1.4;
+    }
+
+    /* ── Completion Banner ── */
+    .done-banner {
+      display: none; text-align: center;
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white; border-radius: 16px;
+      padding: 28px 20px; margin-bottom: 20px;
+      font-size: 1.2rem; font-weight: 700;
+    }
+    .done-banner.visible { display: block; }
+    .done-banner p { font-size: 0.9rem; opacity: 0.65; margin-top: 6px; font-weight: 400; }
+
+    /* ── FAB ── */
+    .fab-group {
+      position: fixed; bottom: 28px; right: 28px;
+      z-index: 999; display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    }
+    .fab-btn {
+      display: flex; align-items: center; gap: 7px;
+      border: none; border-radius: 50px;
+      padding: 11px 20px; font-size: 0.87rem; font-weight: 700;
+      cursor: pointer; font-family: 'Segoe UI', sans-serif;
+      transition: transform .2s, box-shadow .2s; white-space: nowrap;
+    }
+    .fab-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .fab-btn:hover { transform: translateY(-2px); }
+    .fab-btn.print {
+      background: white; color: #2d3748;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13); border: 1.5px solid #e2e8f0;
+    }
+    .fab-btn.print:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.16); }
+
+    footer {
+      background: #1a1a2e; color: rgba(255,255,255,0.4);
+      text-align: center; padding: 20px; font-size: 0.78rem;
+    }
+    footer strong { color: white; }
+
+    @media print {
+      .prog-bar-wrap, .fab-group { display: none !important; }
+      body { background: white; }
+      .cat-card { box-shadow: none; border: 1px solid #e2e8f0; }
+      .item.hidden { display: flex !important; opacity: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">🎒 Japan Trip · 10 วัน</div>
+  <h1>Packing <em>Checklist</em></h1>
+  <p>รายการสิ่งของที่ต้องเตรียมสำหรับเดินทางญี่ปุ่น — ติ๊กถูกแต่ละรายการ ระบบจะจำสถานะไว้อัตโนมัติ</p>
+</div>
+
+<!-- Sticky Progress -->
+<div class="prog-bar-wrap">
+  <div class="prog-inner">
+    <div class="prog-label" id="progLabel">เตรียมแล้ว 0 / 62 รายการ</div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-pct" id="progPct">0%</div>
+    <button class="ctrl-btn filter" id="filterBtn" onclick="toggleFilter()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      แสดงที่ยังไม่แพ็ค
+    </button>
+    <button class="ctrl-btn reset" onclick="resetAll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+      Reset
+    </button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="container">
+  <div class="done-banner" id="doneBanner">
+    🎉 เตรียมของครบทุกรายการแล้ว!
+    <p>พร้อมเดินทางสู่ญี่ปุ่น — Have a great trip! 🗾✈️</p>
+  </div>
+  <div class="cat-grid" id="catGrid"></div>
+</div>
+
+<footer>
+  <strong>Japan Packing Checklist</strong> &nbsp;·&nbsp; BKK → NRT 10 Days &nbsp;·&nbsp; ระบบจำสถานะอัตโนมัติใน browser
+</footer>
+
+<!-- FAB -->
+<div class="fab-group">
+  <button class="fab-btn print" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"/>
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Print / PDF
+  </button>
+</div>
+
+<script>
+  /* ── Data ── */
+  const CATEGORIES = [
+    {
+      id: 'doc', name: 'เอกสารสำคัญ', icon: '📋', color: '#e94560',
+      items: [
+        { id: 'd01', text: 'พาสปอร์ต อายุเหลือไม่ต่ำกว่า 6 เดือน', note: 'ใส่กระเป๋าถือ ห้ามโหลดใต้เครื่องบิน' },
+        { id: 'd02', text: 'บัตรประชาชน (ติดตัวสำรอง)' },
+        { id: 'd03', text: 'ตั๋วเครื่องบิน (e-ticket หรือ print ออกมา)' },
+        { id: 'd04', text: 'ใบยืนยันจองโรงแรมทุกคืน' },
+        { id: 'd05', text: 'ประกันการเดินทาง', note: 'บันทึก emergency hotline ไว้ในโทรศัพท์ด้วย' },
+        { id: 'd06', text: 'บัตรเครดิต/เดบิต ที่รูดต่างประเทศได้', note: 'แจ้งธนาคารก่อนเดินทาง' },
+        { id: 'd07', text: 'เงินสดเยน (¥ JPY)', note: 'แลกล่วงหน้า ร้านค้าเล็กๆ หลายที่ไม่รับบัตร' },
+        { id: 'd08', text: 'ลงทะเบียน Visit Japan Web แล้ว', note: 'กรอกข้อมูลล่วงหน้า ประหยัดเวลาด่านตรวจ' },
+        { id: 'd09', text: 'สำเนาพาสปอร์ต (เก็บแยกจากตัวจริง)' },
+        { id: 'd10', text: 'รูปถ่าย 2×2 นิ้ว จำนวน 2 รูป (สำรอง)' },
+      ]
+    },
+    {
+      id: 'cloth', name: 'เสื้อผ้าและรองเท้า', icon: '👕', color: '#667eea',
+      items: [
+        { id: 'c01', text: 'เสื้อยืด 5–7 ตัว' },
+        { id: 'c02', text: 'กางเกง/กระโปรง 3–4 ตัว' },
+        { id: 'c03', text: 'เสื้อกันหนาว/แจ็คเก็ต (ตามฤดูกาล)', note: 'ฤดูหนาวต้องมีหนาอย่างน้อย 1 ตัว' },
+        { id: 'c04', text: 'ชุดชั้นใน 7–10 ชุด' },
+        { id: 'c05', text: 'ถุงเท้า 7 คู่', note: 'เลือกแบบใส่ถอดง่าย เข้าวัด/ร้านอาหารญี่ปุ่น' },
+        { id: 'c06', text: 'รองเท้าเดิน/สนีกเกอร์ที่สวมสบาย', note: 'เดินวันละ 15,000+ ก้าว เลือกรองเท้าที่ใส่แล้วชิน' },
+        { id: 'c07', text: 'รองเท้าแตะ (ใส่ในโรงแรม)' },
+        { id: 'c08', text: 'ร่มพับขนาดเล็ก หรือเสื้อกันฝน' },
+        { id: 'c09', text: 'หมวก (กันแดด/ลม)' },
+        { id: 'c10', text: 'ชุดนอน' },
+        { id: 'c11', text: 'ชุดว่ายน้ำ (ถ้าพักที่มี Onsen หรือ Pool)' },
+      ]
+    },
+    {
+      id: 'personal', name: 'ของใช้ส่วนตัว', icon: '🧴', color: '#48bb78',
+      items: [
+        { id: 'p01', text: 'แปรงสีฟัน + ยาสีฟัน' },
+        { id: 'p02', text: 'แชมพู + ครีมนวดผม' },
+        { id: 'p03', text: 'เจลอาบน้ำ/สบู่' },
+        { id: 'p04', text: 'โฟมล้างหน้า' },
+        { id: 'p05', text: 'มอยเจอไรเซอร์/โลชั่นทาตัว', note: 'ในญี่ปุ่นอากาศแห้งมาก โดยเฉพาะฤดูหนาว' },
+        { id: 'p06', text: 'ครีมกันแดด SPF 50+', note: 'ซื้อที่ไทยถูกกว่า หรือลองแบรนด์ญี่ปุ่นที่นั่น' },
+        { id: 'p07', text: 'ยาระงับกลิ่นกาย (deodorant)' },
+        { id: 'p08', text: 'กรรไกรตัดเล็บ' },
+        { id: 'p09', text: 'หวี/แปรงผม' },
+        { id: 'p10', text: 'ที่โกนหนวด' },
+        { id: 'p11', text: 'ทิชชู่เปียก/ผ้าเช็ดหน้า' },
+        { id: 'p12', text: 'ผ้าเช็ดตัว (ขนาดเล็ก น้ำหนักเบา)', note: 'โรงแรมส่วนใหญ่มีให้ แต่ควรมีติดตัวไว้' },
+      ]
+    },
+    {
+      id: 'med', name: 'ยาและสุขภาพ', icon: '💊', color: '#ed8936',
+      items: [
+        { id: 'm01', text: 'ยาแก้ปวดหัว/ลดไข้ (Paracetamol)' },
+        { id: 'm02', text: 'ยาแก้ท้องเสีย/ท้องอืด/อาหารไม่ย่อย' },
+        { id: 'm03', text: 'ยาแก้แพ้ (Antihistamine)', note: 'ช่วยกรณีแพ้ละอองเกสรดอกไม้ช่วงซากุระ' },
+        { id: 'm04', text: 'ยาแก้เมารถ/เมาเครื่องบิน' },
+        { id: 'm05', text: 'พลาสเตอร์/ผ้าพันแผล (ชุดปฐมพยาบาลเล็กๆ)' },
+        { id: 'm06', text: 'ยากันยุง/สเปรย์กันแมลง' },
+        { id: 'm07', text: 'วิตามินรวม (สำหรับทั้งทริป)' },
+        { id: 'm08', text: 'ยาประจำตัว (สำรองเพิ่ม 2–3 วัน)', note: 'ควรมีใบสั่งแพทย์ภาษาอังกฤษติดมาด้วย' },
+        { id: 'm09', text: 'ปรอทวัดไข้ดิจิทัล' },
+        { id: 'm10', text: 'เจลล้างมือ/แอลกอฮอล์สเปรย์' },
+      ]
+    },
+    {
+      id: 'tech', name: 'อิเล็กทรอนิกส์', icon: '📱', color: '#38b2ac',
+      items: [
+        { id: 't01', text: 'โทรศัพท์มือถือ + สายชาร์จ' },
+        { id: 't02', text: 'Adapter ปลั๊กไฟ Type A (ญี่ปุ่น 110V)', note: 'ญี่ปุ่นใช้ขากลม/แบน 2 ขา 110V ตรวจสอบอุปกรณ์ให้รองรับ' },
+        { id: 't03', text: 'Power bank (≤ 20,000 mAh)', note: 'ห้ามโหลดใต้เครื่องบิน ต้องถือขึ้นเครื่องเท่านั้น' },
+        { id: 't04', text: 'กล้องถ่ายรูป + ที่ชาร์จ + แบตสำรอง' },
+        { id: 't05', text: 'หูฟัง/AirPods' },
+        { id: 't06', text: 'SIM ท่องเที่ยว หรือ Pocket WiFi', note: 'จองล่วงหน้าออนไลน์ถูกกว่า รับที่สนามบิน NRT' },
+        { id: 't07', text: 'Laptop/Tablet (ถ้าจำเป็น)' },
+        { id: 't08', text: 'Memory card สำรอง (≥ 64 GB)' },
+        { id: 't09', text: 'Selfie stick / Mini tripod' },
+        { id: 't10', text: 'สายชาร์จสำรอง + USB hub/multi-port charger' },
+      ]
+    },
+    {
+      id: 'bag', name: 'กระเป๋าและของฝาก', icon: '🎁', color: '#f687b3',
+      items: [
+        { id: 'b01', text: 'กระเป๋าเดย์แพ็ค/เป้เล็ก (สำหรับเดินเที่ยวรายวัน)' },
+        { id: 'b02', text: 'กระเป๋าผ้าพับได้ (สำหรับช้อปปิ้ง)' },
+        { id: 'b03', text: 'ถุงซิปล็อคหลายขนาด (จัดระเบียบ + ของเหลว)' },
+        { id: 'b04', text: 'Vacuum bags / ถุงอัดอากาศ', note: 'ประหยัดพื้นที่กระเป๋าขากลับได้มาก' },
+        { id: 'b05', text: 'กุญแจล็อคกระเป๋า TSA', note: 'สำหรับกระเป๋าเดินทางที่โหลดใต้เครื่อง' },
+        { id: 'b06', text: 'ป้ายชื่อ/แท็กกระเป๋า (Name tag)' },
+        { id: 'b07', text: 'ของขวัญจากไทยสำหรับเพื่อน/เจ้าของที่พัก', note: 'ของฝากจากไทย เช่น ขนม มะม่วงอบ ผ้าไหม' },
+        { id: 'b08', text: 'IC Card (Suica/Pasmo) — ซื้อที่สนามบิน NRT', note: 'ใช้ขึ้นรถไฟและซื้อของได้ทั่วญี่ปุ่น' },
+        { id: 'b09', text: 'JR Pass (ถ้าซื้อล่วงหน้า)', note: 'ต้องนำไป Exchange เป็นตั๋วจริงที่สนามบินหรือสถานี JR' },
+      ]
+    },
+  ];
+
+  /* ── State ── */
+  const STORE_KEY = 'packing-japan-10d';
+  let checked = new Set(JSON.parse(localStorage.getItem(STORE_KEY) || '[]'));
+  let filterOn = false;
+
+  /* ── Build UI ── */
+  function buildUI() {
+    const grid = document.getElementById('catGrid');
+    grid.innerHTML = CATEGORIES.map(cat => `
+      <div class="cat-card" id="cat-${cat.id}">
+        <div class="cat-header" style="--cat-color:${cat.color}">
+          <span class="cat-icon">${cat.icon}</span>
+          <span class="cat-name">${cat.name}</span>
+          <span class="cat-badge" id="badge-${cat.id}">0 / ${cat.items.length}</span>
+        </div>
+        <div class="cat-items">
+          ${cat.items.map(item => `
+            <div class="item" id="${item.id}" onclick="toggle('${item.id}')">
+              <div class="chk">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"
+                  stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2,6 5,9 10,3"/>
+                </svg>
+              </div>
+              <div class="item-content">
+                <div class="item-text">${item.text}</div>
+                ${item.note ? `<div class="item-note">💡 ${item.note}</div>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ── Toggle ── */
+  function toggle(id) {
+    checked.has(id) ? checked.delete(id) : checked.add(id);
+    localStorage.setItem(STORE_KEY, JSON.stringify([...checked]));
+    updateUI();
+  }
+
+  /* ── Reset ── */
+  function resetAll() {
+    if (!confirm('ล้างรายการที่ติ๊กไว้ทั้งหมด?')) return;
+    checked.clear();
+    localStorage.removeItem(STORE_KEY);
+    updateUI();
+  }
+
+  /* ── Filter ── */
+  function toggleFilter() {
+    filterOn = !filterOn;
+    const btn = document.getElementById('filterBtn');
+    btn.classList.toggle('active', filterOn);
+    btn.innerHTML = filterOn
+      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg> แสดงทั้งหมด`
+      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> แสดงที่ยังไม่แพ็ค`;
+    updateUI();
+  }
+
+  /* ── Update ── */
+  function updateUI() {
+    let totalItems = 0, totalDone = 0;
+
+    CATEGORIES.forEach(cat => {
+      let catDone = 0;
+
+      cat.items.forEach(item => {
+        totalItems++;
+        const el = document.getElementById(item.id);
+        if (!el) return;
+        const isDone = checked.has(item.id);
+        if (isDone) { catDone++; totalDone++; }
+        el.classList.toggle('checked', isDone);
+        el.classList.toggle('hidden', filterOn && isDone);
+      });
+
+      // Badge
+      const badge = document.getElementById('badge-' + cat.id);
+      if (badge) {
+        badge.textContent = catDone + ' / ' + cat.items.length;
+        badge.classList.toggle('complete', catDone === cat.items.length);
+      }
+      // Header color
+      const header = document.querySelector('#cat-' + cat.id + ' .cat-header');
+      if (header) header.classList.toggle('all-done', catDone === cat.items.length);
+    });
+
+    // Progress bar
+    const pct = totalItems > 0 ? Math.round(totalDone / totalItems * 100) : 0;
+    document.getElementById('progLabel').textContent = `เตรียมแล้ว ${totalDone} / ${totalItems} รายการ`;
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progPct').textContent = pct + '%';
+
+    // Completion banner
+    document.getElementById('doneBanner').classList.toggle('visible', totalDone === totalItems && totalItems > 0);
+  }
+
+  /* ── Boot ── */
+  buildUI();
+  updateUI();
+</script>
+
+</body>
+</html>

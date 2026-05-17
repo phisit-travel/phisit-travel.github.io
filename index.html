@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phisit Travel | บริการท่องเที่ยวครบวงจร</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', sans-serif; color: #2d3748; background: #fff; overflow-x: hidden; }
+
+    /* ── Variables ── */
+    :root {
+      --navy: #0f3460; --dark: #1a1a2e; --mid: #16213e;
+      --red: #e94560; --red-d: #c41c3c;
+    }
+
+    /* ══════════════════ NAVBAR ══════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+      transition: background .3s, box-shadow .3s;
+    }
+    .navbar.scrolled {
+      background: rgba(15,52,96,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: white;
+    }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--red); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-text strong { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.5px; }
+    .logo-text span { font-size: 0.65rem; opacity: 0.65; letter-spacing: 1.5px; text-transform: uppercase; }
+
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a {
+      color: rgba(255,255,255,0.82); text-decoration: none;
+      padding: 7px 14px; border-radius: 8px; font-size: 0.88rem; font-weight: 500;
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+    .nav-links .cta {
+      background: var(--red); color: white !important; font-weight: 700;
+      padding: 8px 18px; margin-left: 6px;
+    }
+    .nav-links .cta:hover { background: var(--red-d); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: white; border-radius: 2px; transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0;
+      background: rgba(15,52,96,0.98); backdrop-filter: blur(16px);
+      padding: 16px 20px 24px; flex-direction: column; gap: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 999;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      padding: 12px 16px; border-radius: 10px; font-size: 1rem; font-weight: 500;
+      transition: background .15s;
+    }
+    .mobile-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
+    .mobile-menu .cta { background: var(--red); color: white !important; margin-top: 8px; font-weight: 700; text-align: center; }
+
+    /* ══════════════════ HERO ══════════════════ */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 45%, #0f3460 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 20px 60px; position: relative; overflow: hidden;
+    }
+    .hero-pattern {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+      background-size: 40px 40px;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(233,69,96,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.15)} }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50px; padding: 8px 22px; font-size: 0.82rem;
+      color: rgba(255,255,255,0.8); letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 24px; position: relative;
+    }
+    .hero-badge::before { content: '✈️'; }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 900;
+      color: white; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px;
+      position: relative;
+    }
+    .hero h1 em { color: var(--red); font-style: normal; }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(255,255,255,0.62);
+      max-width: 540px; line-height: 1.7; margin-bottom: 36px; position: relative;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; margin-bottom: 56px; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red); color: white; text-decoration: none;
+      padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(233,69,96,0.4);
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-primary:hover { background: var(--red-d); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(233,69,96,0.5); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); color: white; text-decoration: none;
+      padding: 14px 28px; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      transition: transform .2s, background .2s;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+
+    /* Stats */
+    .hero-stats {
+      display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+      position: relative;
+    }
+    .stat { text-align: center; color: white; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .stat-num em { color: var(--red); font-style: normal; }
+    .stat-label { font-size: 0.75rem; opacity: 0.55; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.35); font-size: 0.75rem; letter-spacing: 1px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      text-transform: uppercase; animation: bounce 2s infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ══════════════════ SECTIONS ══════════════════ */
+    section { padding: 80px 5%; }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-tag {
+      display: inline-block; background: #fff1f3; color: var(--red);
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; padding: 5px 16px; border-radius: 50px; margin-bottom: 14px;
+    }
+    .section-header h2 { font-size: 2rem; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; }
+    .section-header h2 em { color: var(--red); font-style: normal; }
+    .section-header p { color: #718096; margin-top: 10px; font-size: 1rem; max-width: 520px; margin-inline: auto; }
+
+    /* ══════════════════ PACKAGES ══════════════════ */
+    #packages { background: #f8fafc; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1080px; margin: 0 auto; }
+
+    .pkg-card {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      background: white;
+      transition: transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.14); }
+
+    .pkg-visual {
+      height: 200px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; position: relative; overflow: hidden;
+    }
+    .pkg-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);
+    }
+    .pkg-emoji { font-size: 4rem; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+    .pkg-flag { position: absolute; top: 14px; right: 14px; font-size: 1.8rem; z-index: 1; }
+    .pkg-duration {
+      position: absolute; bottom: 14px; left: 14px;
+      background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+      color: white; font-size: 0.75rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3);
+      z-index: 1; letter-spacing: 0.5px;
+    }
+
+    .pkg-japan .pkg-visual { background: linear-gradient(135deg, #1a1a2e 0%, #c41c3c 60%, #e94560 100%); }
+    .pkg-korea .pkg-visual { background: linear-gradient(135deg, #1a1a2e 0%, #2b4a8b 50%, #667eea 100%); }
+    .pkg-europe .pkg-visual { background: linear-gradient(135deg, #1a1a2e 0%, #7b5e3a 50%, #c49a4e 100%); }
+
+    .pkg-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+    .pkg-country { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--red); margin-bottom: 6px; }
+    .pkg-title { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .pkg-highlights { list-style: none; margin-bottom: 16px; display: flex; flex-direction: column; gap: 5px; }
+    .pkg-highlights li { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; color: #4a5568; }
+    .pkg-highlights li::before { content: '✓'; color: #48bb78; font-weight: 800; font-size: 0.75rem; flex-shrink: 0; }
+
+    .pkg-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 16px; border-top: 1px solid #f0f4f8; }
+    .pkg-price { display: flex; flex-direction: column; }
+    .pkg-price .from { font-size: 0.7rem; color: #a0aec0; }
+    .pkg-price .amount { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
+    .pkg-price .unit { font-size: 0.7rem; color: #a0aec0; }
+    .pkg-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--navy); color: white; text-decoration: none;
+      padding: 8px 18px; border-radius: 10px; font-size: 0.82rem; font-weight: 700;
+      transition: background .15s, transform .15s;
+    }
+    .pkg-btn:hover { background: var(--red); transform: translateY(-1px); }
+    .pkg-btn.disabled { background: #cbd5e0; pointer-events: none; cursor: default; }
+
+    /* ══════════════════ TOOLS ══════════════════ */
+    #planner { background: white; }
+    .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    .tool-card {
+      border-radius: 16px; padding: 28px 24px;
+      background: #f8fafc; border: 2px solid #edf2f7;
+      text-align: center; text-decoration: none; color: inherit;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .tool-card:hover { border-color: var(--red); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(233,69,96,0.12); }
+    .tool-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    }
+    .tool-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--dark); }
+    .tool-card p { font-size: 0.82rem; color: #718096; line-height: 1.6; }
+    .tool-link { font-size: 0.8rem; font-weight: 700; color: var(--red); margin-top: 4px; }
+
+    /* ══════════════════ WHY US ══════════════════ */
+    #why { background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); }
+    #why .section-tag { background: rgba(233,69,96,0.2); color: #fc8181; }
+    #why .section-header h2 { color: white; }
+    #why .section-header p { color: rgba(255,255,255,0.55); }
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1080px; margin: 0 auto; }
+    .why-card {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 28px 20px; text-align: center; color: white;
+      transition: background .2s, transform .2s;
+    }
+    .why-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+    .why-card .wi { font-size: 2.4rem; margin-bottom: 14px; display: block; }
+    .why-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+    .why-card p { font-size: 0.8rem; opacity: 0.6; line-height: 1.6; }
+
+    /* ══════════════════ CONTACT ══════════════════ */
+    #contact { background: #f8fafc; }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; max-width: 1000px; margin: 0 auto; align-items: start; }
+    .contact-info h3 { font-size: 1.4rem; font-weight: 800; color: var(--dark); margin-bottom: 12px; }
+    .contact-info p { color: #718096; font-size: 0.9rem; line-height: 1.8; margin-bottom: 24px; }
+    .contact-detail { display: flex; flex-direction: column; gap: 14px; }
+    .contact-row { display: flex; gap: 14px; align-items: flex-start; }
+    .contact-row .ci {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: #fff1f3; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-row .cd strong { font-size: 0.8rem; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 2px; }
+    .contact-row .cd span { font-size: 0.9rem; color: var(--dark); font-weight: 600; }
+
+    /* Form */
+    .contact-form { background: white; border-radius: 20px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label { font-size: 0.8rem; font-weight: 700; color: #4a5568; letter-spacing: 0.3px; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+      font-size: 0.9rem; font-family: 'Segoe UI', sans-serif; color: #2d3748;
+      background: #f7fafc; outline: none; transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--red); background: white; box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 14px; background: var(--red); color: white; border: none;
+      border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      font-family: 'Segoe UI', sans-serif; transition: background .15s, transform .15s;
+      margin-top: 4px;
+    }
+    .form-submit:hover { background: var(--red-d); transform: translateY(-1px); }
+    .form-success {
+      display: none; background: #f0fff4; border: 1.5px solid #9ae6b4;
+      border-radius: 10px; padding: 16px; text-align: center; color: #276749;
+      font-weight: 600; font-size: 0.9rem; margin-top: 12px;
+    }
+    .form-success.visible { display: block; }
+
+    /* ══════════════════ FOOTER ══════════════════ */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,0.5);
+      padding: 48px 5% 28px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px;
+      padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 24px;
+    }
+    .footer-brand .logo { margin-bottom: 14px; display: inline-flex; }
+    .footer-brand p { font-size: 0.82rem; line-height: 1.8; max-width: 240px; }
+    .footer-col h4 { color: white; font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; letter-spacing: 0.5px; }
+    .footer-col a { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.82rem; margin-bottom: 8px; transition: color .15s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.78rem; }
+    .footer-bottom strong { color: rgba(255,255,255,0.7); }
+
+    /* ── Extra package visual colors ── */
+    .pkg-bali .pkg-visual    { background: linear-gradient(135deg, #0d2b1a 0%, #276749 55%, #48bb78 100%); }
+    .pkg-england .pkg-visual { background: linear-gradient(135deg, #1a1a2e 0%, #1e3a5f 55%, #3182ce 100%); }
+    .pkg-singapore .pkg-visual { background: linear-gradient(135deg, #2d1308 0%, #9c3d1e 55%, #dd6b20 100%); }
+
+    /* ══════════════════ TESTIMONIALS ══════════════════ */
+    #testimonials { background: white; }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1000px; margin: 0 auto;
+    }
+    .testi-card {
+      background: #f8fafc; border-radius: 20px; padding: 28px;
+      border: 1px solid #edf2f7;
+      transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
+    }
+    .testi-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.09); }
+    .testi-quote { font-size: 3rem; line-height: 1; color: var(--red); opacity: 0.2; margin-bottom: 2px; }
+    .testi-stars { color: #f6ad3c; font-size: 1rem; letter-spacing: 3px; margin-bottom: 14px; }
+    .testi-text {
+      font-size: 0.875rem; color: #4a5568; line-height: 1.9;
+      flex: 1; margin-bottom: 22px; font-style: italic;
+    }
+    .testi-author { display: flex; align-items: center; gap: 13px; }
+    .avatar {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.88rem; font-weight: 800; color: white; letter-spacing: -0.5px;
+    }
+    .author-name { font-size: 0.92rem; font-weight: 700; color: var(--dark); }
+    .author-trip { font-size: 0.75rem; color: #a0aec0; margin-top: 3px; }
+
+    /* ══════════════════ FLOAT BUTTONS ══════════════════ */
+    .float-btns {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    }
+    .float-btn {
+      display: flex; align-items: center; gap: 9px;
+      padding: 12px 20px; border-radius: 50px; text-decoration: none;
+      font-size: 0.87rem; font-weight: 700; color: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+    .float-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
+    .float-btn svg { width: 19px; height: 19px; flex-shrink: 0; }
+    .float-btn.line-btn { background: #06C755; }
+    .float-btn.wa-btn   { background: #25D366; }
+
+    /* ══════════════════ RESPONSIVE ══════════════════ */
+    @media (max-width: 900px) {
+      .pkg-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .pkg-grid { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 24px; }
+      section { padding: 60px 5%; }
+    }
+    @media (max-width: 480px) {
+      .why-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+      .float-btn span { display: none; }
+      .float-btn { padding: 14px; border-radius: 50%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar" id="navbar">
+  <a href="#home" class="logo">
+    <div class="logo-mark">✈️</div>
+    <div class="logo-text">
+      <strong>Phisit Travel</strong>
+      <span>Your Journey Awaits</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#packages">Packages</a>
+    <a href="itinerary.html">Planner</a>
+    <a href="packing.html">Packing List</a>
+    <a href="#contact" class="cta">Contact Us</a>
+  </div>
+
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMenu()">🏠 Home</a>
+  <a href="#packages" onclick="closeMenu()">🌏 Packages</a>
+  <a href="itinerary.html">📅 Planner</a>
+  <a href="packing.html">🎒 Packing List</a>
+  <a href="#contact" onclick="closeMenu()" class="cta">✉️ Contact Us</a>
+</div>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section id="home">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-badge">Premium Travel Agency · ตั้งแต่ 2548</div>
+
+  <h1>
+    ออกเดินทาง<br/>
+    สู่<em>โลกกว้าง</em>กับเรา
+  </h1>
+  <p class="hero-sub">
+    Phisit Travel พาคุณสำรวจจุดหมายสุดฝัน<br/>
+    ด้วยแพ็คเกจทัวร์คุณภาพ ราคาพิเศษ และบริการดูแลตลอด 24 ชม.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#packages" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      ดูแพ็คเกจทั้งหมด
+    </a>
+    <a href="itinerary.html" class="btn-ghost">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      วางแผนทริปญี่ปุ่น
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num"><em>500</em>+</div><div class="stat-label">ลูกค้าพึงพอใจ</div></div>
+    <div class="stat"><div class="stat-num"><em>30</em>+</div><div class="stat-label">จุดหมายทั่วโลก</div></div>
+    <div class="stat"><div class="stat-num"><em>20</em>+</div><div class="stat-label">ปีประสบการณ์</div></div>
+    <div class="stat"><div class="stat-num"><em>98</em>%</div><div class="stat-label">Satisfaction Rate</div></div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ══════════════════ PACKAGES ══════════════════ -->
+<section id="packages">
+  <div class="section-header">
+    <span class="section-tag">🌏 Featured Packages</span>
+    <h2>แพ็คเกจ<em>แนะนำ</em>ยอดนิยม</h2>
+    <p>คัดสรรเส้นทางพิเศษ พร้อมประสบการณ์ที่ไม่รู้ลืมในราคาที่คุ้มค่า</p>
+  </div>
+
+  <div class="pkg-grid">
+
+    <!-- Japan -->
+    <div class="pkg-card pkg-japan">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">⛩️</span>
+        <span class="pkg-flag">🗾</span>
+        <span class="pkg-duration">✈️ 10 วัน 9 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">Japan · ญี่ปุ่น</div>
+        <div class="pkg-title">Classic Japan — BKK → NRT</div>
+        <ul class="pkg-highlights">
+          <li>Tokyo · Nikko · Kyoto · Nara</li>
+          <li>Arashiyama · Fushimi Inari · teamLab</li>
+          <li>Shinkansen Tokyo ↔ Kyoto</li>
+          <li>โรงแรมระดับ 3–4 ดาว คืนละ ¥8,000–15,000</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿45,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="itinerary.html" class="pkg-btn">
+            ดูแผนการเดินทาง
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Korea -->
+    <div class="pkg-card pkg-korea">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">🏙️</span>
+        <span class="pkg-flag">🇰🇷</span>
+        <span class="pkg-duration">✈️ 7 วัน 6 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">South Korea · เกาหลีใต้</div>
+        <div class="pkg-title">Seoul & Busan Highlights</div>
+        <ul class="pkg-highlights">
+          <li>Seoul · Busan · Gyeongju</li>
+          <li>Gyeongbokgung · N Seoul Tower · Jeju</li>
+          <li>K-Food · K-Drama Spots</li>
+          <li>Hanbok Experience · Street Food Tour</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿32,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="#contact" class="pkg-btn">
+            สอบถามโปรโมชัน
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Europe -->
+    <div class="pkg-card pkg-europe">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">🏰</span>
+        <span class="pkg-flag">🌍</span>
+        <span class="pkg-duration">✈️ 14 วัน 13 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">Europe · ยุโรป</div>
+        <div class="pkg-title">Grand Europe — 5 ประเทศ</div>
+        <ul class="pkg-highlights">
+          <li>Paris · Rome · Barcelona · Amsterdam</li>
+          <li>Prague · Eiffel Tower · Colosseum</li>
+          <li>รถไฟ Eurostar London ↔ Paris</li>
+          <li>Guided Tour พร้อมไกด์ภาษาไทย</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿125,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="#contact" class="pkg-btn">
+            สอบถามโปรโมชัน
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bali -->
+    <div class="pkg-card pkg-bali">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">🌴</span>
+        <span class="pkg-flag">🇮🇩</span>
+        <span class="pkg-duration">✈️ 5 วัน 4 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">Bali · บาหลี อินโดนีเซีย</div>
+        <div class="pkg-title">Bali Bliss — บาหลีสุดฝัน</div>
+        <ul class="pkg-highlights">
+          <li>Ubud · Seminyak · Kuta · Uluwatu</li>
+          <li>Tegalalang Rice Terrace · Tanah Lot</li>
+          <li>สปา Bali ดั้งเดิม · Sunset Dinner</li>
+          <li>วิลล่า Pool Private หรือ Resort 4 ดาว</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿18,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="#contact" class="pkg-btn">
+            สอบถามโปรโมชัน
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- England -->
+    <div class="pkg-card pkg-england">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">🎡</span>
+        <span class="pkg-flag">🇬🇧</span>
+        <span class="pkg-duration">✈️ 10 วัน 9 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">England · อังกฤษ</div>
+        <div class="pkg-title">Best of Britain — London & Beyond</div>
+        <ul class="pkg-highlights">
+          <li>London · Oxford · Stonehenge · Bath</li>
+          <li>Big Ben · Buckingham Palace · Tower Bridge</li>
+          <li>Edinburgh Day Trip · Windsor Castle</li>
+          <li>Afternoon Tea · West End Theatre Show</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿95,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="#contact" class="pkg-btn">
+            สอบถามโปรโมชัน
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Singapore -->
+    <div class="pkg-card pkg-singapore">
+      <div class="pkg-visual">
+        <span class="pkg-emoji">🦁</span>
+        <span class="pkg-flag">🇸🇬</span>
+        <span class="pkg-duration">✈️ 4 วัน 3 คืน</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-country">Singapore · สิงคโปร์</div>
+        <div class="pkg-title">Singapore City Escape</div>
+        <ul class="pkg-highlights">
+          <li>Marina Bay Sands · Gardens by the Bay</li>
+          <li>Sentosa Island · Universal Studios</li>
+          <li>Chinatown · Little India · Clarke Quay</li>
+          <li>Singapore Airlines / Scoot ตรงจาก BKK</li>
+        </ul>
+        <div class="pkg-footer">
+          <div class="pkg-price">
+            <span class="from">เริ่มต้น</span>
+            <span class="amount">฿22,000</span>
+            <span class="unit">/ ท่าน</span>
+          </div>
+          <a href="#contact" class="pkg-btn">
+            สอบถามโปรโมชัน
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ PLANNER TOOLS ══════════════════ -->
+<section id="planner">
+  <div class="section-header">
+    <span class="section-tag">🛠️ Travel Tools</span>
+    <h2>เครื่องมือ<em>วางแผน</em>การเดินทาง</h2>
+    <p>ใช้เครื่องมือฟรีของเราช่วยวางแผนทริปให้ง่ายและครบถ้วนยิ่งขึ้น</p>
+  </div>
+
+  <div class="tools-grid">
+    <a href="itinerary.html" class="tool-card">
+      <div class="tool-icon" style="background:#fff1f3">📅</div>
+      <h3>Japan Itinerary Planner</h3>
+      <p>แผนการเดินทาง 10 วัน BKK→NRT แบบละเอียด พร้อม Google Maps links ทุกสถานที่</p>
+      <span class="tool-link">เปิด Itinerary →</span>
+    </a>
+    <a href="budget.html" class="tool-card">
+      <div class="tool-icon" style="background:#f0fff4">💴</div>
+      <h3>Budget Calculator</h3>
+      <p>คำนวณงบประมาณการเดินทางญี่ปุ่น แยกหมวดหมู่ 8 ประเภท พร้อม JPY/THB converter</p>
+      <span class="tool-link">เปิด Calculator →</span>
+    </a>
+    <a href="packing.html" class="tool-card">
+      <div class="tool-icon" style="background:#ebf8ff">🎒</div>
+      <h3>Packing Checklist</h3>
+      <p>รายการสิ่งของ 62 รายการ แบ่ง 6 หมวด พร้อมระบบติ๊กและบันทึกสถานะอัตโนมัติ</p>
+      <span class="tool-link">เปิด Checklist →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════ WHY US ══════════════════ -->
+<section id="why">
+  <div class="section-header">
+    <span class="section-tag">⭐ Why Phisit Travel</span>
+    <h2>ทำไมต้อง<em>เลือกเรา</em></h2>
+    <p style="color:rgba(255,255,255,0.55)">เราดูแลทุกรายละเอียดเพื่อให้การเดินทางของคุณสมบูรณ์แบบที่สุด</p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="wi">✈️</span>
+      <h4>ตั๋วเครื่องบินราคาพิเศษ</h4>
+      <p>เครือข่ายสายการบินกว่า 50 สายการบิน ราคาดีที่สุด ปลายทางทั่วโลก</p>
+    </div>
+    <div class="why-card">
+      <span class="wi">🏨</span>
+      <h4>โรงแรมคัดสรรคุณภาพ</h4>
+      <p>คัดโรงแรมที่ตรวจสอบมาตรฐานทุกแห่ง ทั้งระดับ Budget จนถึง Luxury</p>
+    </div>
+    <div class="why-card">
+      <span class="wi">👨‍💼</span>
+      <h4>ไกด์ท้องถิ่นภาษาไทย</h4>
+      <p>ไกด์ที่มีประสบการณ์ เชี่ยวชาญพื้นที่ พร้อมดูแลตลอดทริป</p>
+    </div>
+    <div class="why-card">
+      <span class="wi">🔒</span>
+      <h4>ประกันการเดินทาง</h4>
+      <p>ทุกแพ็คเกจมีประกันคุ้มครอง พร้อม Hotline 24 ชม. ตลอดการเดินทาง</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ TESTIMONIALS ══════════════════ -->
+<section id="testimonials">
+  <div class="section-header">
+    <span class="section-tag">💬 Customer Reviews</span>
+    <h2>เสียงจาก<em>ลูกค้า</em>ของเรา</h2>
+    <p>ความประทับใจจากนักเดินทางที่ไว้วางใจ Phisit Travel</p>
+  </div>
+
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-top">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#e94560,#c41c3c)">สว</div>
+        <div class="testi-info">
+          <div class="testi-name">คุณสวรรค์ มีสุข</div>
+          <div class="testi-trip">Japan 10 วัน · มีนาคม 2568</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="testi-text">"ประทับใจมากค่ะ ทีมงานดูแลดีมาก ไกด์พูดไทยได้ชัดเจน พาไปครบทุกที่ที่อยากไป ทั้ง Fushimi Inari, teamLab และ Arashiyama สวยงามจนพูดไม่ออก จะกลับมาใช้บริการอีกแน่นอนค่ะ"</p>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-top">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#667eea,#4c51bf)">ธน</div>
+        <div class="testi-info">
+          <div class="testi-name">คุณธนพล รักการเดินทาง</div>
+          <div class="testi-trip">Europe 14 วัน · ธันวาคม 2567</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="testi-text">"ทริปยุโรป 5 ประเทศสุดคุ้มครับ จัดโปรแกรมแน่นแต่ไม่เหนื่อยเกินไป โรงแรมสะอาด ทำเลดีทุกแห่ง ไกด์ท้องถิ่นมีความรู้มาก ราคาสมเหตุสมผล คุ้มค่าทุกบาทเลยครับ"</p>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-top">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#48bb78,#276749)">มล</div>
+        <div class="testi-info">
+          <div class="testi-name">คุณมลฤดี พรหมศิริ</div>
+          <div class="testi-trip">Bali 5 วัน · กุมภาพันธ์ 2568</div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="testi-text">"ไปบาหลี Honeymoon กับสามีค่ะ วิลล่า Pool Private สวยมาก วิวสระว่ายน้ำมองเห็นทุ่งนาสีเขียว โรแมนติกสุดๆ ทีมงานจัด Surprise Dinner ริมสระให้ด้วย ขอบคุณ Phisit Travel มากๆ เลยค่ะ"</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-tag">✉️ Contact Us</span>
+    <h2>ติดต่อ<em>เรา</em></h2>
+    <p>สนใจแพ็คเกจหรือต้องการวางแผนทริปพิเศษ? ทีมงานพร้อมตอบทุกคำถาม</p>
+  </div>
+
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3>Phisit Travel</h3>
+      <p>บริการจัดทัวร์ครบวงจร ทั้งทัวร์กลุ่ม ทัวร์ส่วนตัว และแพ็คเกจ Honeymoon<br/>ประสบการณ์กว่า 20 ปี ดูแลลูกค้ากว่า 500+ ท่าน</p>
+      <div class="contact-detail">
+        <div class="contact-row">
+          <div class="ci">📍</div>
+          <div class="cd"><strong>ที่อยู่</strong><span>123 ถนนสุขุมวิท แขวงคลองเตย กรุงเทพฯ 10110</span></div>
+        </div>
+        <div class="contact-row">
+          <div class="ci">📞</div>
+          <div class="cd"><strong>โทรศัพท์</strong><span>02-123-4567 · 081-234-5678</span></div>
+        </div>
+        <div class="contact-row">
+          <div class="ci">📧</div>
+          <div class="cd"><strong>อีเมล</strong><span>hello@phisittravel.com</span></div>
+        </div>
+        <div class="contact-row">
+          <div class="ci">🕐</div>
+          <div class="cd"><strong>เวลาทำการ</strong><span>จันทร์–เสาร์ 09:00–18:00 น.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form id="contactForm" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ชื่อ-นามสกุล *</label>
+            <input type="text" placeholder="คุณสมชาย ใจดี" required />
+          </div>
+          <div class="form-group">
+            <label>อีเมล *</label>
+            <input type="email" placeholder="example@email.com" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>เบอร์โทรศัพท์ *</label>
+            <input type="tel" placeholder="08X-XXX-XXXX" required />
+          </div>
+          <div class="form-group">
+            <label>ปลายทางที่สนใจ</label>
+            <select>
+              <option value="">-- เลือกปลายทาง --</option>
+              <option>🗾 ญี่ปุ่น (Japan)</option>
+              <option>🇰🇷 เกาหลีใต้ (South Korea)</option>
+              <option>🌍 ยุโรป (Europe)</option>
+              <option>🇸🇬 สิงคโปร์ (Singapore)</option>
+              <option>🇹🇼 ไต้หวัน (Taiwan)</option>
+              <option>✈️ อื่นๆ</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>จำนวนผู้เดินทาง</label>
+            <select>
+              <option>1 ท่าน</option>
+              <option selected>2 ท่าน</option>
+              <option>3–5 ท่าน</option>
+              <option>6–10 ท่าน</option>
+              <option>มากกว่า 10 ท่าน (กรุ๊ป)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ช่วงเวลาที่สะดวกเดินทาง</label>
+            <input type="month" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ข้อความเพิ่มเติม</label>
+          <textarea placeholder="แจ้งความต้องการพิเศษ เช่น ต้องการ Honeymoon Package, ผู้สูงอายุ, เด็กเล็ก ฯลฯ"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          📨 ส่งข้อความหาเรา
+        </button>
+        <div class="form-success" id="formSuccess">
+          ✅ ได้รับข้อความของคุณแล้ว! ทีมงานจะติดต่อกลับภายใน 24 ชม. ขอบคุณครับ 🙏
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="logo">
+        <div class="logo-mark">✈️</div>
+        <div class="logo-text">
+          <strong>Phisit Travel</strong>
+          <span>Your Journey Awaits</span>
+        </div>
+      </a>
+      <p>บริการจัดทัวร์และวางแผนการเดินทางครบวงจร ด้วยประสบการณ์กว่า 20 ปี ดูแลทุก Step ตั้งแต่จองตั๋วจนถึงกลับบ้าน</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#home">Home</a>
+      <a href="#packages">Packages</a>
+      <a href="itinerary.html">Itinerary Planner</a>
+      <a href="budget.html">Budget Calculator</a>
+      <a href="packing.html">Packing List</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <a href="itinerary.html">🗾 Japan (10 วัน)</a>
+      <a href="#packages">🇰🇷 South Korea (7 วัน)</a>
+      <a href="#packages">🌍 Europe (14 วัน)</a>
+      <a href="#contact">🇸🇬 Singapore</a>
+      <a href="#contact">🇹🇼 Taiwan</a>
+    </div>
+    <div class="footer-col">
+      <h4>ติดต่อเรา</h4>
+      <a href="tel:021234567">📞 02-123-4567</a>
+      <a href="tel:0812345678">📱 081-234-5678</a>
+      <a href="mailto:hello@phisittravel.com">📧 hello@phisittravel.com</a>
+      <a href="#contact">📍 สุขุมวิท กรุงเทพฯ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 <strong>Phisit Travel Co., Ltd.</strong> · สงวนลิขสิทธิ์ทุกประการ</span>
+    <span>สร้างด้วย Claude Code 🤖</span>
+  </div>
+</footer>
+
+<script>
+  /* Navbar scroll effect */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+
+  /* Mobile menu */
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn   = document.getElementById('hamburger');
+    const open  = menu.classList.toggle('open');
+    btn.classList.toggle('open', open);
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('mobileMenu');
+    const btn  = document.getElementById('hamburger');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+  });
+
+  /* Contact form */
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '⏳ กำลังส่ง...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('formSuccess').classList.add('visible');
+      btn.textContent = '✅ ส่งแล้ว';
+      e.target.reset();
+    }, 1200);
+  }
+</script>
+
+<!-- Float Buttons -->
+<div class="float-btns">
+  <a href="https://line.me/ti/p/~@phisittravel" target="_blank" rel="noopener" class="float-btn line-btn">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    <span>Line</span>
+  </a>
+  <a href="https://wa.me/6681234567" target="_blank" rel="noopener" class="float-btn wa-btn">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+</div>
+
+</body>
+</html>
