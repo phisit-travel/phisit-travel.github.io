@@ -170,6 +170,42 @@
       body { background: white; }
       .cat-card { box-shadow: none; border: 1px solid #e2e8f0; }
       .item.hidden { display: flex !important; opacity: 1 !important; }
+      #creator { display: none !important; }
+    }
+
+    /* ── ABOUT CREATOR ── */
+    #creator { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); padding: 70px 20px; }
+    .creator-inner { max-width: 860px; margin: 0 auto; }
+    .creator-heading { text-align: center; margin-bottom: 36px; }
+    .creator-tag { display: inline-block; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: #e94560; background: rgba(233,69,96,.12); border: 1px solid rgba(233,69,96,.25); padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; }
+    .creator-heading h2 { font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .creator-heading h2 em { color: #e94560; font-style: normal; }
+    .creator-heading p { font-size: .88rem; color: rgba(255,255,255,.45); }
+    .creator-card { background: rgba(255,255,255,.04); border: 1px solid rgba(233,69,96,.2); border-radius: 16px; padding: 36px; display: grid; grid-template-columns: 160px 1fr; gap: 36px; align-items: start; }
+    .creator-avatar { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg,#e94560,#c41c3c); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; color: #fff; box-shadow: 0 0 36px rgba(233,69,96,.3); flex-shrink: 0; }
+    .creator-name { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .creator-name em { color: #e94560; font-style: normal; }
+    .creator-role { font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 24px; }
+    .creator-divider { height: 1px; background: rgba(255,255,255,.08); margin: 18px 0; }
+    .creator-block-label { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: #e94560; margin-bottom: 8px; }
+    .creator-item { background: rgba(255,255,255,.04); border-left: 3px solid #e94560; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px; }
+    .creator-item-title { font-size: .88rem; color: #fff; font-weight: 600; margin-bottom: 2px; }
+    .creator-item-sub { font-size: .76rem; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .creator-item-period { font-size: .68rem; color: rgba(255,255,255,.3); margin-top: 3px; display: block; }
+    .skill-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .skill-tag { font-size: .7rem; padding: 3px 12px; border-radius: 20px; background: rgba(233,69,96,.12); color: rgba(255,255,255,.7); border: 1px solid rgba(233,69,96,.25); }
+    .creator-note { font-size: .82rem; color: rgba(255,255,255,.48); line-height: 1.8; border-left: 2px solid rgba(233,69,96,.3); padding-left: 12px; font-style: italic; }
+    .creator-note em { color: #e94560; font-style: normal; font-weight: 500; }
+    .creator-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .creator-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 8px; font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-decoration: none; transition: .2s; }
+    .creator-btn:hover { transform: translateY(-2px); opacity: .9; }
+    .creator-btn-li { background: linear-gradient(135deg,#0A66C2,#084f99); color: #fff; }
+    .creator-btn-email { background: rgba(255,255,255,.07); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15); }
+    @media (max-width: 620px) {
+      .creator-card { grid-template-columns: 1fr; gap: 20px; }
+      .creator-avatar { width: 90px; height: 90px; font-size: 2.4rem; }
+      .creator-btns { flex-direction: column; }
+      .creator-btn { justify-content: center; }
     }
   </style>
 </head>
@@ -207,6 +243,66 @@
   </div>
   <div class="cat-grid" id="catGrid"></div>
 </div>
+
+<section id="creator">
+  <div class="creator-inner">
+    <div class="creator-heading">
+      <span class="creator-tag">👨‍✈️ About the Creator</span>
+      <h2>ผู้อยู่เบื้อง<em>หลัง</em>เว็บนี้</h2>
+      <p>เว็บไซต์นี้สร้างขึ้นเพื่อ showcase ทักษะด้าน aviation และ technology</p>
+    </div>
+    <div class="creator-card">
+      <div><div class="creator-avatar">P</div></div>
+      <div>
+        <div class="creator-name"><em>Phisit</em> Tantiranon</div>
+        <div class="creator-role">✈️ Aviation Professional &amp; Web Developer</div>
+        <div class="creator-block-label">🎓 การศึกษา</div>
+        <div class="creator-item">
+          <div class="creator-item-title">Bachelor of Business Administration</div>
+          <div class="creator-item-sub">Airline Business Management · Bangkok University</div>
+        </div>
+        <div class="creator-block-label" style="margin-top:16px">💼 ประสบการณ์</div>
+        <div class="creator-item">
+          <div class="creator-item-title">Intern — Immigration Division</div>
+          <div class="creator-item-sub">Suvarnabhumi Airport · Royal Thai Police</div>
+          <span class="creator-item-period">January – April 2022</span>
+        </div>
+        <div class="creator-divider"></div>
+        <div class="creator-block-label">⚡ Skills</div>
+        <div class="skill-wrap">
+          <span class="skill-tag">Amadeus GDS</span>
+          <span class="skill-tag">Flight Operations</span>
+          <span class="skill-tag">Aviation Regulations</span>
+          <span class="skill-tag">Customer Service</span>
+          <span class="skill-tag">Microsoft Office</span>
+          <span class="skill-tag">Document Management</span>
+          <span class="skill-tag">HTML / CSS / JS</span>
+          <span class="skill-tag">Web Design</span>
+        </div>
+        <div class="creator-divider"></div>
+        <p class="creator-note">
+          Phisit Travel สร้างขึ้นเพื่อ showcase ทักษะด้าน <em>aviation</em> และความสามารถด้านเทคโนโลยี
+          ผสานความรู้จากสาย <em>Airline Business Management</em> กับ <em>modern web development</em>
+          ทุกฟีเจอร์ตั้งแต่ Itinerary Planner, Budget Calculator ไปจนถึง Packing Checklist
+          ออกแบบและพัฒนาโดย AI-assisted coding ด้วย <em>Claude Code</em>
+        </p>
+        <div class="creator-btns">
+          <a href="https://www.linkedin.com/in/phisit-tantiranon-32636940a/"
+             target="_blank" rel="noopener" class="creator-btn creator-btn-li">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            LinkedIn
+          </a>
+          <a href="mailto:phisit.tant@gmail.com" class="creator-btn creator-btn-email">
+            ✉️ phisit.tant@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <strong>Japan Packing Checklist</strong> &nbsp;·&nbsp; BKK → NRT 10 Days &nbsp;·&nbsp; ระบบจำสถานะอัตโนมัติใน browser
