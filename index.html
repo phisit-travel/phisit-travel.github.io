@@ -399,6 +399,77 @@
       .float-btn span { display: none; }
       .float-btn { padding: 14px; border-radius: 50%; }
     }
+
+    /* ── ABOUT CREATOR ── */
+    #creator { background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%); padding: 80px 20px; }
+    .creator-inner { max-width: 900px; margin: 0 auto; }
+    .creator-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(233,69,96,.2);
+      border-radius: 16px; padding: 40px;
+      display: grid; grid-template-columns: 180px 1fr; gap: 40px; align-items: start;
+      backdrop-filter: blur(4px);
+    }
+    .creator-avatar {
+      width: 160px; height: 160px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), #c41c3c);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; font-weight: 700; color: #fff;
+      box-shadow: 0 0 40px rgba(233,69,96,.3); flex-shrink: 0;
+    }
+    .creator-name { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .creator-name em { color: var(--red); font-style: normal; }
+    .creator-role {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-bottom: 28px;
+    }
+    .creator-divider { height: 1px; background: rgba(255,255,255,.08); margin: 22px 0; }
+    .creator-block-label {
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 10px; opacity: .9;
+    }
+    .creator-item {
+      background: rgba(255,255,255,.04); border-left: 3px solid var(--red);
+      padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 8px;
+    }
+    .creator-item-title { font-size: .9rem; color: #fff; font-weight: 600; margin-bottom: 3px; }
+    .creator-item-sub { font-size: .78rem; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .creator-item-period {
+      display: inline-block; margin-top: 4px;
+      font-size: .7rem; letter-spacing: .06em; color: rgba(255,255,255,.3);
+    }
+    .skill-wrap { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+    .skill-tag {
+      font-size: .72rem; padding: 4px 13px; border-radius: 20px;
+      background: rgba(233,69,96,.12); color: rgba(255,255,255,.7);
+      border: 1px solid rgba(233,69,96,.25); transition: .2s;
+    }
+    .skill-tag:hover { background: rgba(233,69,96,.25); color: #fff; }
+    .creator-note {
+      font-size: .84rem; color: rgba(255,255,255,.5); line-height: 1.8;
+      border-left: 2px solid rgba(233,69,96,.3); padding-left: 14px;
+      font-style: italic; margin-top: 4px;
+    }
+    .creator-note em { color: var(--red); font-style: normal; font-weight: 500; }
+    .creator-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .creator-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-size: .82rem; font-weight: 600;
+      letter-spacing: .04em; transition: .2s; text-decoration: none;
+    }
+    .creator-btn:hover { transform: translateY(-2px); opacity: .9; }
+    .creator-btn-li { background: linear-gradient(135deg, #0A66C2, #084f99); color: #fff; }
+    .creator-btn-email {
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.8);
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    .creator-btn-email:hover { background: rgba(255,255,255,.12); color: #fff; }
+    @media (max-width: 680px) {
+      .creator-card { grid-template-columns: 1fr; gap: 24px; }
+      .creator-avatar { width: 100px; height: 100px; font-size: 2.5rem; }
+      .creator-btns { flex-direction: column; }
+      .creator-btn { justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -868,6 +939,75 @@
           ✅ ได้รับข้อความของคุณแล้ว! ทีมงานจะติดต่อกลับภายใน 24 ชม. ขอบคุณครับ 🙏
         </div>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ ABOUT CREATOR ══════════════════ -->
+<section id="creator">
+  <div class="creator-inner">
+    <div class="section-header">
+      <span class="section-tag">👨‍✈️ About the Creator</span>
+      <h2>ผู้อยู่เบื้อง<em>หลัง</em>เว็บนี้</h2>
+      <p>เว็บไซต์นี้สร้างขึ้นเพื่อ showcase ทักษะด้าน aviation และ technology</p>
+    </div>
+    <div class="creator-card">
+      <div>
+        <div class="creator-avatar">P</div>
+      </div>
+      <div>
+        <div class="creator-name"><em>Phisit</em> Tantiranon</div>
+        <div class="creator-role">✈️ Aviation Professional &amp; Web Developer</div>
+
+        <div class="creator-block-label">🎓 การศึกษา</div>
+        <div class="creator-item">
+          <div class="creator-item-title">Bachelor of Business Administration</div>
+          <div class="creator-item-sub">Airline Business Management · Bangkok University</div>
+        </div>
+
+        <div class="creator-block-label" style="margin-top:18px">💼 ประสบการณ์</div>
+        <div class="creator-item">
+          <div class="creator-item-title">Intern — Immigration Division</div>
+          <div class="creator-item-sub">Suvarnabhumi Airport · Royal Thai Police</div>
+          <span class="creator-item-period">January – April 2022</span>
+        </div>
+
+        <div class="creator-divider"></div>
+
+        <div class="creator-block-label">⚡ Skills</div>
+        <div class="skill-wrap">
+          <span class="skill-tag">Amadeus GDS</span>
+          <span class="skill-tag">Flight Operations</span>
+          <span class="skill-tag">Aviation Regulations</span>
+          <span class="skill-tag">Customer Service</span>
+          <span class="skill-tag">Microsoft Office</span>
+          <span class="skill-tag">Document Management</span>
+          <span class="skill-tag">HTML / CSS / JS</span>
+          <span class="skill-tag">Web Design</span>
+        </div>
+
+        <div class="creator-divider"></div>
+
+        <p class="creator-note">
+          เว็บไซต์นี้สร้างขึ้นเพื่อผสมผสานความเชี่ยวชาญด้าน
+          <em>Airline Business</em> เข้ากับทักษะ <em>Web Development</em>
+          มอบประสบการณ์วางแผนการเดินทางดิจิทัลระดับพรีเมียมให้กับผู้ใช้งาน
+        </p>
+
+        <div class="creator-btns">
+          <a href="https://www.linkedin.com/in/phisit-tantiranon-32636940a/"
+             target="_blank" rel="noopener" class="creator-btn creator-btn-li">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            LinkedIn
+          </a>
+          <a href="mailto:phisit.tant@gmail.com" class="creator-btn creator-btn-email">
+            ✉️ phisit.tant@gmail.com
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
