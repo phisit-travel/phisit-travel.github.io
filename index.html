@@ -400,6 +400,115 @@
       .float-btn { padding: 14px; border-radius: 50%; }
     }
 
+    /* ══════════════════ CREW OPERATIONS TOOL ══════════════════ */
+    #crew-tool {
+      background: linear-gradient(135deg, var(--mid) 0%, var(--navy) 100%);
+      padding: 80px 5%;
+    }
+    #crew-tool .section-tag { background: rgba(233,69,96,0.2); color: #fc8181; }
+    #crew-tool .section-header h2 { color: white; }
+    #crew-tool .section-header p { color: rgba(255,255,255,0.55); }
+
+    .crew-layout {
+      display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px;
+      max-width: 980px; margin: 0 auto; align-items: start;
+    }
+
+    .crew-calc-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 36px; backdrop-filter: blur(6px);
+    }
+    .crew-calc-title {
+      font-size: 1rem; font-weight: 700; color: white; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .crew-calc-title span {
+      background: rgba(233,69,96,0.2); border: 1px solid rgba(233,69,96,0.35);
+      border-radius: 10px; padding: 6px 10px; font-size: 1.2rem;
+    }
+
+    .crew-fields { display: flex; flex-direction: column; gap: 18px; margin-bottom: 24px; }
+    .crew-field label {
+      display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 7px;
+    }
+    .crew-field input {
+      width: 100%; padding: 12px 16px; border-radius: 10px; font-size: 0.95rem;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: white; outline: none; transition: border-color .2s, background .2s;
+      font-family: inherit;
+    }
+    .crew-field input:focus { border-color: var(--red); background: rgba(255,255,255,0.11); }
+    .crew-field input::placeholder { color: rgba(255,255,255,0.3); }
+    .crew-field input[type="number"]::-webkit-inner-spin-button,
+    .crew-field input[type="number"]::-webkit-outer-spin-button { opacity: 0.4; }
+
+    .crew-calc-btn {
+      width: 100%; padding: 14px; border-radius: 10px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--red), var(--red-d));
+      color: white; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.04em;
+      transition: opacity .2s, transform .2s; font-family: inherit;
+    }
+    .crew-calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .crew-warning {
+      display: none; margin-top: 20px;
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.35);
+      border-radius: 10px; padding: 14px 16px;
+      color: #fca5a5; font-size: 0.84rem; font-weight: 600; line-height: 1.6;
+    }
+    .crew-warning.show { display: flex; align-items: flex-start; gap: 10px; }
+    .crew-warning-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .crew-result {
+      display: none; margin-top: 20px;
+      background: rgba(72,187,120,0.08); border: 1px solid rgba(72,187,120,0.25);
+      border-radius: 12px; padding: 20px;
+    }
+    .crew-result.show { display: block; }
+    .crew-result-title {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #68d391; margin-bottom: 14px; font-weight: 700;
+    }
+    .crew-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .crew-result-item {
+      background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px 14px;
+    }
+    .crew-result-item label {
+      font-size: 0.68rem; color: rgba(255,255,255,0.4); text-transform: uppercase;
+      letter-spacing: 0.1em; display: block; margin-bottom: 4px;
+    }
+    .crew-result-item .val { font-size: 1.1rem; font-weight: 700; color: white; }
+    .crew-result-item.highlight { border: 1px solid rgba(72,187,120,0.3); }
+    .crew-result-item.highlight .val { color: #68d391; }
+
+    .crew-info-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px; backdrop-filter: blur(6px);
+    }
+    .crew-info-title {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 20px; font-weight: 700; opacity: 0.9;
+    }
+    .crew-rule {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .crew-rule:last-child { border-bottom: none; padding-bottom: 0; }
+    .crew-rule-icon {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(233,69,96,0.12); border: 1px solid rgba(233,69,96,0.2);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .crew-rule-body h4 { font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 3px; }
+    .crew-rule-body p { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .crew-rule-body strong { color: rgba(255,255,255,0.75); }
+
+    @media (max-width: 760px) {
+      .crew-layout { grid-template-columns: 1fr; }
+      .crew-result-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── ABOUT CREATOR ── */
     #creator { background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%); padding: 80px 20px; }
     .creator-inner { max-width: 900px; margin: 0 auto; }
@@ -489,6 +598,7 @@
     <a href="#packages">Packages</a>
     <a href="itinerary.html">Planner</a>
     <a href="packing.html">Packing List</a>
+    <a href="#crew-tool">Crew Tool</a>
     <a href="#contact" class="cta">Contact Us</a>
   </div>
 
@@ -503,6 +613,7 @@
   <a href="#packages" onclick="closeMenu()">🌏 Packages</a>
   <a href="itinerary.html">📅 Planner</a>
   <a href="packing.html">🎒 Packing List</a>
+  <a href="#crew-tool" onclick="closeMenu()">⏱️ Crew Tool</a>
   <a href="#contact" onclick="closeMenu()" class="cta">✉️ Contact Us</a>
 </div>
 
@@ -943,6 +1054,106 @@
   </div>
 </section>
 
+<!-- ══════════════════ CREW OPERATIONS TOOL ══════════════════ -->
+<section id="crew-tool">
+  <div class="section-header">
+    <span class="section-tag">⏱️ Crew Operations</span>
+    <h2>Crew Duty Time <em>Calculator</em></h2>
+    <p>คำนวณ Rest Time ตาม Aviation FTL Regulations สำหรับลูกเรือการบิน</p>
+  </div>
+
+  <div class="crew-layout">
+    <!-- Calculator -->
+    <div class="crew-calc-card">
+      <div class="crew-calc-title">
+        <span>✈️</span> Duty Time Calculator
+      </div>
+
+      <div class="crew-fields">
+        <div class="crew-field">
+          <label>Report Time (Local)</label>
+          <input type="time" id="crewReportTime" value="06:00" />
+        </div>
+        <div class="crew-field">
+          <label>Duty Hours</label>
+          <input type="number" id="crewDutyHours" min="1" max="24" step="0.5" placeholder="e.g. 9" />
+        </div>
+      </div>
+
+      <button class="crew-calc-btn" onclick="calcCrewDuty()">Calculate Rest Time</button>
+
+      <!-- Warning: duty > 12h -->
+      <div class="crew-warning" id="crewWarning">
+        <span class="crew-warning-icon">⚠️</span>
+        <div>
+          <strong>Extended Duty Warning</strong><br>
+          Duty time exceeds 12 hours — ต้องได้รับการอนุมัติจาก Operations Control ก่อนทำการบิน
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="crew-result" id="crewResult">
+        <div class="crew-result-title">✅ Calculation Result</div>
+        <div class="crew-result-grid">
+          <div class="crew-result-item">
+            <label>Report Time</label>
+            <div class="val" id="resReportTime">—</div>
+          </div>
+          <div class="crew-result-item">
+            <label>Off Duty Time</label>
+            <div class="val" id="resOffDuty">—</div>
+          </div>
+          <div class="crew-result-item highlight">
+            <label>Min. Rest Required</label>
+            <div class="val" id="resRestMin">12 hrs</div>
+          </div>
+          <div class="crew-result-item highlight">
+            <label>Earliest Next Report</label>
+            <div class="val" id="resNextReport">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FTL Info -->
+    <div class="crew-info-card">
+      <div class="crew-info-title">📋 FTL Regulations Reference</div>
+
+      <div class="crew-rule">
+        <div class="crew-rule-icon">😴</div>
+        <div class="crew-rule-body">
+          <h4>Minimum Rest Period</h4>
+          <p>ลูกเรือต้องได้รับการพัก <strong>ไม่น้อยกว่า 12 ชั่วโมง</strong> ก่อนเริ่ม duty period ถัดไป ตาม ICAO Annex 6</p>
+        </div>
+      </div>
+
+      <div class="crew-rule">
+        <div class="crew-rule-icon">⏰</div>
+        <div class="crew-rule-body">
+          <h4>Maximum Duty Period</h4>
+          <p>Duty time สูงสุดปกติคือ <strong>12 ชั่วโมง</strong> — หากเกินต้องรับการอนุมัติพิเศษ (Extended FDP)</p>
+        </div>
+      </div>
+
+      <div class="crew-rule">
+        <div class="crew-rule-icon">🛌</div>
+        <div class="crew-rule-body">
+          <h4>Rest Quality</h4>
+          <p>การพักต้องเป็น <strong>uninterrupted rest</strong> ในที่พักที่เหมาะสม ไม่นับเวลาเดินทางไปยังที่พัก</p>
+        </div>
+      </div>
+
+      <div class="crew-rule">
+        <div class="crew-rule-icon">📅</div>
+        <div class="crew-rule-body">
+          <h4>7-Day Limit</h4>
+          <p>ชั่วโมงบินสะสม <strong>ต้องไม่เกิน 60 ชั่วโมง</strong> ใน 7 วัน และ 100 ชั่วโมงใน 28 วัน</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════ ABOUT CREATOR ══════════════════ -->
 <section id="creator">
   <div class="creator-inner">
@@ -1081,6 +1292,44 @@
     const btn  = document.getElementById('hamburger');
     if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
   });
+
+  /* Crew Duty Time Calculator */
+  function calcCrewDuty() {
+    const reportVal = document.getElementById('crewReportTime').value;
+    const dutyVal   = parseFloat(document.getElementById('crewDutyHours').value);
+
+    if (!reportVal || isNaN(dutyVal) || dutyVal <= 0) {
+      alert('กรุณากรอก Report Time และ Duty Hours ให้ครบถ้วน');
+      return;
+    }
+
+    const [rh, rm] = reportVal.split(':').map(Number);
+    const reportMins = rh * 60 + rm;
+    const dutyMins   = Math.round(dutyVal * 60);
+    const offMins    = (reportMins + dutyMins) % (24 * 60);
+    const restMins   = 12 * 60;
+    const nextMins   = (offMins + restMins) % (24 * 60);
+
+    const fmt = m => {
+      const h = Math.floor(((m % (24*60)) + 24*60) % (24*60) / 60);
+      const min = ((m % (24*60)) + 24*60) % (24*60) % 60;
+      return `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+    };
+
+    document.getElementById('resReportTime').textContent  = fmt(reportMins);
+    document.getElementById('resOffDuty').textContent     = fmt(offMins);
+    document.getElementById('resRestMin').textContent     = '12 hrs';
+    document.getElementById('resNextReport').textContent  = fmt(nextMins);
+
+    document.getElementById('crewResult').classList.add('show');
+
+    const warn = document.getElementById('crewWarning');
+    if (dutyVal > 12) {
+      warn.classList.add('show');
+    } else {
+      warn.classList.remove('show');
+    }
+  }
 
   /* Contact form */
   function submitForm(e) {
