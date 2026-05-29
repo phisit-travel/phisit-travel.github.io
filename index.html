@@ -583,6 +583,33 @@
     .creator-btn-email:hover { background: rgba(255,255,255,.12); color: #fff; }
     .creator-btn-gh { background: #24292e; color: #fff; }
     .creator-btn-gh:hover { background: #3a3f45; }
+    /* ── Certifications ── */
+    .cert-card {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,123,89,.25);
+      border-left: 3px solid #FF7A59;
+      border-radius: 0 10px 10px 0; padding: 14px 16px; margin-top: 4px;
+    }
+    .cert-badge {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(255,122,89,.15); border: 1px solid rgba(255,122,89,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+    }
+    .cert-info { flex: 1; }
+    .cert-name { font-size: .88rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .cert-issuer { font-size: .75rem; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+    .cert-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cert-pill {
+      font-size: .68rem; padding: 3px 10px; border-radius: 20px;
+      background: rgba(255,122,89,.12); color: rgba(255,200,180,.85);
+      border: 1px solid rgba(255,122,89,.2); letter-spacing: .03em;
+    }
+    .cert-id {
+      font-size: .66rem; color: rgba(255,255,255,.25);
+      margin-top: 6px; font-family: monospace; letter-spacing: .04em;
+    }
+
     .creator-projects { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
     .creator-project-card {
       display: flex; align-items: center; gap: 14px;
@@ -1243,6 +1270,21 @@
           <span class="skill-tag">Document Management</span>
           <span class="skill-tag">HTML / CSS / JS</span>
           <span class="skill-tag">Claude Code</span>
+        </div>
+
+        <div class="creator-divider"></div>
+
+        <div class="creator-block-label">🏅 Certifications</div>
+        <div class="cert-card">
+          <div class="cert-badge">🟠</div>
+          <div class="cert-info">
+            <div class="cert-name">HubSpot Inbound Certification</div>
+            <div class="cert-issuer">Issued by HubSpot Academy</div>
+            <div class="cert-meta">
+              <span class="cert-pill">✅ Valid: May 2026 – Jun 2028</span>
+            </div>
+            <div class="cert-id">Credential ID: 7b07035bea654e87a7f320fd8bded5c8</div>
+          </div>
         </div>
 
         <div class="creator-divider"></div>
