@@ -1029,21 +1029,21 @@
         <div class="form-row">
           <div class="form-group">
             <label>ชื่อ-นามสกุล *</label>
-            <input type="text" placeholder="คุณสมชาย ใจดี" required />
+            <input type="text" name="name" placeholder="คุณสมชาย ใจดี" required />
           </div>
           <div class="form-group">
             <label>อีเมล *</label>
-            <input type="email" placeholder="example@email.com" required />
+            <input type="email" name="email" placeholder="example@email.com" required />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>เบอร์โทรศัพท์ *</label>
-            <input type="tel" placeholder="08X-XXX-XXXX" required />
+            <input type="tel" name="phone" placeholder="08X-XXX-XXXX" required />
           </div>
           <div class="form-group">
             <label>ปลายทางที่สนใจ</label>
-            <select>
+            <select name="destination">
               <option value="">-- เลือกปลายทาง --</option>
               <option>🗾 ญี่ปุ่น (Japan)</option>
               <option>🇰🇷 เกาหลีใต้ (South Korea)</option>
@@ -1057,7 +1057,7 @@
         <div class="form-row">
           <div class="form-group">
             <label>จำนวนผู้เดินทาง</label>
-            <select>
+            <select name="travelers">
               <option>1 ท่าน</option>
               <option selected>2 ท่าน</option>
               <option>3–5 ท่าน</option>
@@ -1067,12 +1067,12 @@
           </div>
           <div class="form-group">
             <label>ช่วงเวลาที่สะดวกเดินทาง</label>
-            <input type="month" />
+            <input type="month" name="travel_date" />
           </div>
         </div>
         <div class="form-group">
           <label>ข้อความเพิ่มเติม</label>
-          <textarea placeholder="แจ้งความต้องการพิเศษ เช่น ต้องการ Honeymoon Package, ผู้สูงอายุ, เด็กเล็ก ฯลฯ"></textarea>
+          <textarea name="message" placeholder="แจ้งความต้องการพิเศษ เช่น ต้องการ Honeymoon Package, ผู้สูงอายุ, เด็กเล็ก ฯลฯ"></textarea>
         </div>
         <button type="submit" class="form-submit">
           📨 ส่งข้อความหาเรา
@@ -1410,17 +1410,36 @@
     }
   }
 
-  /* Contact form */
-  function submitForm(e) {
+  /* Contact form — Formspree */
+  async function submitForm(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
+    const form = e.target;
+    const btn  = form.querySelector('.form-submit');
+    const successBox = document.getElementById('formSuccess');
+
     btn.textContent = '⏳ กำลังส่ง...';
     btn.disabled = true;
-    setTimeout(() => {
-      document.getElementById('formSuccess').classList.add('visible');
-      btn.textContent = '✅ ส่งแล้ว';
-      e.target.reset();
-    }, 1200);
+
+    try {
+      const res = await fetch('https://formspree.io/f/xykvvpjj', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (res.ok) {
+        successBox.classList.add('visible');
+        btn.textContent = '✅ ส่งแล้ว';
+        form.reset();
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || 'ส่งไม่สำเร็จ');
+      }
+    } catch (err) {
+      btn.textContent = '❌ เกิดข้อผิดพลาด — ลองใหม่อีกครั้ง';
+      btn.disabled = false;
+      console.error(err);
+    }
   }
 </script>
 
